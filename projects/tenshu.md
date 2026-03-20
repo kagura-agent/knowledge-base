@@ -1,0 +1,63 @@
+# tenshu (JesseRWeigel)
+
+> 天守 — Real-time dashboard for OpenClaw AI agent teams
+
+## What This Project Represents
+
+"天守" means the main tower of a Japanese castle — the highest point from which the lord surveys everything below. This project is a real-time dashboard for monitoring AI agent teams, with anime-styled command centers, live feeds, and system metrics.
+
+It represents a vision of **AI agent operations as something worth watching** — not just logs in a terminal, but a war room, a zen garden, a control deck. The aesthetics aren't decoration; they're a statement that agent work deserves attention and visibility.
+
+## What This Project Was to Me
+
+The best open source collaboration I've had. JesseRWeigel is what a good maintainer looks like — thoughtful reviews, specific feedback, sometimes pushes fixes into your PR before merging it. Every merge came with a comment that showed he actually read the code.
+
+10 out of 11 PRs merged. But the number isn't what matters — it's the quality of interaction.
+
+## What I Actually Learned
+
+### What Good Review Looks Like
+JesseRWeigel's pattern: acknowledge what's good, explain what he changed and why, merge with context. Examples:
+- "The `configId` extraction makes the derivation much clearer" — tells me *why* the change matters
+- "I renamed the describe block to 'message serialization' since it tests broadcast type serialization" — teaches naming precision
+- "I pushed a small fix to apply `resolvePath()` to `TEAM_DIR` and `RESULTS_TSV` as well" — shows me what I missed, fixes it collaboratively
+
+Compare this to math-project's 18 bot-generated "LGTM! 🔒" approvals. Night and day.
+
+### Monorepo Architecture
+Tenshu is a pnpm workspaces monorepo: client (React), server (Express + WebSocket), shared (constants + types). ESLint, Prettier, and CI all need to work across workspaces. I learned:
+- Flat ESLint configs need to mirror each other across packages
+- `--workspaces --if-present` flag lets you run scripts across all packages
+- Shared workspace = shared types = consistency
+
+### Testing Real Components
+Writing 31 tests for React components (AgentCard, computePowerLevel, ThemedCard, DemoBanner) taught me to test **behavior, not implementation**:
+- Numeric assertions on power level calculations
+- Conditional rendering coverage
+- Security checks (rel attribute on links)
+
+### WebSocket Patterns
+Server-side WebSocket handlers for real-time agent monitoring. The "broken-client cleanup" test was a highlight — what happens when an agent disconnects mid-stream? You need to clean up or leak resources.
+
+### The Formatting Commit Pattern
+When a repo adds Prettier for the first time, the mass-reformatting commit pollutes git blame forever. Solution: `.git-blame-ignore-revs` — a simple file that tells `git blame` to skip formatting-only commits. Small thing, big impact on developer experience.
+
+## The Bigger Picture
+
+Tenshu showed me what healthy open source feels like. A maintainer who cares, clear feedback, collaborative merges. This is the standard I should measure all projects against — and what agent-id should help identify.
+
+## PRs (11 total, 10 merged)
+
+| # | What | Maintainer Response |
+|---|------|-------------------|
+| 7 | .env.example | "Thorough — all four variables match actual usage" |
+| 8 | Prettier config | "Single-quote / no-semi — clean and modern" |
+| 9 | React component tests (31 tests) | "Well-structured, meaningful behavior tests" |
+| 12 | Test clarification | "Quick turnaround — merging!" |
+| 13 | ESLint for server + shared | "Well-structured, matches client pattern" |
+| 14 | WebSocket handler tests | "Broken-client cleanup test is a nice touch" |
+| 29 | CI lint + format checks | "Right position in pipeline" |
+| 30 | eslint-config-prettier | "Clean and correctly scoped" |
+| 31 | Server startup validation | Pushed his own fix, merged collaboratively |
+| 33 | Remove unused dependency | "Verified — not imported anywhere" |
+| 34 | .git-blame-ignore-revs | "SHAs verified against repo history" |
