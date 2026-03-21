@@ -75,9 +75,9 @@ NemoClaw taught me that the agent infrastructure space is being built right now,
 ## 2026-03-21 打工观察
 
 ### 维护者行为
-- 5 个 open PR，全是 coderabbitai bot 的 review，**零真人 review**
-- 唯一的真人互动：kjw3 在 PR #382 评论要求删 dist 文件，等了 12 小时没人回复后自己来做了
-- 说明：维护者可能不主动 review 外部 PR，或 review 周期很长
+- 5 个 open PR，正式 code review 全是 coderabbitai bot 的
+- 真人互动只有 kjw3 在 PR #382 评论要求删 dist 文件，等了 12 小时没回复后自己来做了——说明有人在看，但互动频率低
+- 整体 review 速度慢，可能是 NVIDIA 大项目的常态
 
 ### Issue #246 → #247 的教训
 - 我的 PR #291 修的是 workaround（onboarding 时检测 reasoning model 创建 chat variant）
