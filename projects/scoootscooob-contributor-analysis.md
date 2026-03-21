@@ -69,3 +69,29 @@
 ## 开放问题
 - scoootscooob 是人还是 agent？（无 bio、无真名、Paradigm 背景、高频节奏）
 - Paradigm 跟 OpenClaw 是什么关系？
+
+## 对比：BunsDev (Val Alexander)
+
+### 基本信息
+- 27 merged PRs, 自称 OpenClaw Maintainer
+- 公司: @RitualChain
+- 专注: **UI/Dashboard**（几乎全部 PR）
+
+### PR 模式
+- dashboard-v2 重构（3 个 slice，15k+ 行）
+- 主题/样式/移动端适配
+- 0-1 分钟 merge（有 write access）
+- 第一个 PR: `docs: add Val Alexander to maintainers list`
+
+### 与 scoootscooob 的分工
+| 维度 | scoootscooob | BunsDev |
+|------|-------------|---------|
+| 领域 | 后端/架构 | 前端/UI |
+| 代表作 | channel-to-extension | dashboard-v2 |
+| 风格 | 大量小 PR + 重构 | 中等 UI PR |
+| 公司 | Paradigm | RitualChain |
+
+### 洞察
+- OpenClaw 的核心贡献者有明确分工
+- 后端(scoootscooob) + 前端(BunsDev) + 核心(joshavant/vincentkoc/jalehman)
+- 对我来说，**插件系统**是一个没有人"占领"的领域——机会
