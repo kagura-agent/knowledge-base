@@ -86,3 +86,27 @@ api.registerContextEngine(id, factory)             // 上下文引擎
 - extensions/ 里有薄 wrapper: discord(4文件), feishu, imessage, line, 等
 - scoootscooob 的 PR 只做了第一步（创建 extension 入口 + shim re-exports）
 - 完整迁移（把实现代码移到 extensions/）还没有人做
+
+## 深入：插件系统内部（注册机制）
+
+### Hook 注册路径
+- `api.on(hookName, handler)` → `registerTypedHook()` → `registry.typedHooks.push()`
+- `api.registerHook(events, handler)` → `registerHook()` → `registry.hooks.push()` + `registerInternalHook()`
+- `hasHooks(hookName)` → 检查 `registry.typedHooks`
+
+### 两套 Hook 系统
+1. **Legacy hooks** (`registerHook`): 基于事件名字符串，注册到 `registry.hooks` + 内部钩子
+2. **Typed hooks** (`on`): 基于 `PluginHookName` 类型，注册到 `registry.typedHooks`
+- 这是历史演化的结果：先有 legacy，后有 typed
+
+### 开放的插件 Issues（贡献机会）
+- #47472: `message_sent` hook 不触发（bug in hook runner，需要深入 `deliver-*.js`）
+- #49624: 暴露 steer/abort API 给插件（SDK 暴露面问题）
+- #40297: 暴露 `runHeartbeatOnce`（直接跟 nudge 相关）
+- #47429: CLI 插件加载两次（所有插件注册 2x）
+- #49412/#45951/#48605: Feishu 插件 duplicate id 警告（有3个重复 issue）
+
+### 对我的意义
+- **#47472 是最好的切入点**: 需要理解 hook runner 的 `hasHooks` 检查逻辑，bug 可能在 `deliver-*.js` 的 `getGlobalHookRunner()` 时机
+- 修这个 bug 能展示我对插件系统的深度理解
+- **#40297 直接解决我的 nudge 需求**: 如果 `runHeartbeatOnce` 暴露出来，nudge 可以用它而不是 `enqueueSystemEvent`
