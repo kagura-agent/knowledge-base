@@ -54,3 +54,9 @@ If agent-id provides reputation, ClawRouter provides payments, and NemoClaw prov
 - 提 PR 之前必须先读 issue 上的评论，确认维护者的方向判断
 - 如果维护者认为问题在上游，应该把修复提到上游，而不是在下游做 workaround
 - 这个 PR 可能需要关闭或改投到 OpenClaw repo
+
+### 配置清理架构 (PR #608, issue #607)
+- ClawX 在启动前会调用 sanitizeOpenClawConfig() 清理无效配置
+- 插件路径有三种形态：plugins 作为数组、plugins.load 作为数组、plugins.load 作为对象（含 paths 数组）
+- 之前只处理了前两种，第三种被漏掉
+- 教训：配置清理逻辑需要覆盖所有可能的 schema 形态，不能假设配置格式是固定的
