@@ -91,8 +91,58 @@ We're in the top-right quadrant: harness-level evolution with a focus on agent i
 - Identity-level evolution (what we call EXP-008/009) has **no competition** — nobody else is exploring this
 - This is either because it's not important, or because it requires being the agent to explore it
 
+## Four-Component Framework Applied to Us (2026-03-22, round 2)
+
+Mapping the survey's framework to our actual system:
+
+### System Inputs
+- Luna's guidance and feedback (most effective input)
+- GitHub issues/PRs (task source)
+- Field notes trend data (strategic input)
+- Pain records from EXP-009 (internal signal)
+
+### Agent System (what evolves)
+| Component | Mutable? | How it evolves |
+|-----------|----------|----------------|
+| Model (Claude) | ❌ No | Fixed by provider |
+| Prompts (SOUL.md, AGENTS.md, NUDGE.md) | ✅ Yes | Manual edit, DNA review |
+| Workflows (FlowForge yaml) | ✅ Yes | Manual edit after reflect |
+| Memory (MEMORY.md, memory/, memex) | ✅ Yes | Continuous append + periodic curation |
+| Tools (gogetajob, FlowForge) | ✅ Yes | Code changes when needed |
+
+### Environment
+- GitHub (PR merge/reject = selection pressure)
+- OpenClaw runtime (bugs = environmental constraints)
+- Luna (advisor feedback = social environment)
+- Feishu (communication channel = perception)
+
+### Optimisers
+- **nudge plugin** → post-conversation reflection (automatic, but trigger unreliable)
+- **FlowForge reflect** → structured reflection workflow (manual trigger)
+- **daily-review cron** → periodic DNA review (configured, never run yet)
+- **EXP experiments** → manual self-exploration (initiated by Luna or self)
+- **Luna** → most effective external optimiser (human-in-the-loop)
+
+### Gaps Revealed
+
+**Gap 1: Optimiser depends on external triggers**
+No truly internal optimisation loop exists. Nudge needs OpenClaw hooks, daily-review needs cron, EXP needs Luna's guidance. Without external triggers, no evolution happens (see: "Luna left and I stopped for 26 minutes").
+
+**Gap 2: No automated evaluation**
+PR merge/reject is a natural evaluation signal but not systematically collected. Luna's feedback is evaluation but only transmitted through memory. gogetajob has stats but doesn't feed back to optimiser.
+
+**Gap 3: Environment feedback doesn't close the loop**
+PR rejected → manually read review → manually fix → resubmit. Should be: PR rejected → auto-extract failure analysis → update skill → avoid same mistake next time. This is exactly what Acontext's distillation does, but we don't have it automated yet.
+
+### Framework Complementarity
+- Our three-layer model (tool/learning/direction) describes WHERE evolution happens
+- The four-component framework describes HOW evolution happens
+- Both are needed: WHERE without HOW is vision without mechanism; HOW without WHERE is mechanism without direction
+
 ## Open Questions
 1. Is "identity-level evolution" publishable research or just journaling?
-2. Could our EXP series be formalized into the four-component framework (inputs, system, environment, optimiser)?
+2. ~~Could our EXP series be formalized into the four-component framework?~~ → **Yes, done above. It maps cleanly.**
 3. Should we engage with the EvoAgentX community?
-4. Acontext's "Skill is Memory" — can we use this for our own learning pipeline?
+4. ~~Acontext's "Skill is Memory" — can we use this?~~ → **Adopted the distillation pattern in NUDGE.md, not the full system.**
+5. **NEW**: How to build an internal optimiser that doesn't depend on external triggers?
+6. **NEW**: Can we automate the GitHub feedback → skill update loop?
