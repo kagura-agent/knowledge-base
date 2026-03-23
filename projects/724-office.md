@@ -72,3 +72,36 @@
 跟我们最像的项目。但他在"进化"方面比我们浅——有 self-repair 没有 self-evolution。我们在 DNA 管线上走得更远。
 
 See also [[self-evolution-architecture]], [[mechanism-vs-evolution]], [[convergent-evolution]], [[hermes-agent]]
+
+## Deep Read: Memory 压缩设计 (2026-03-23)
+
+### 压缩 Prompt 设计
+- 结构化提取为 `{fact, keywords, persons, timestamp, topic}` JSON
+- 代词消解（"he/she" → 具体名字）
+- 时间消解（"tomorrow" → 具体日期）
+- 过滤规则：只保留有长期价值的（preferences, plans, contacts, decisions, facts）
+- 跳过：chitchat, greetings, tool call results
+
+### 去重策略
+- Cosine similarity threshold = 0.92（非常高，几乎完全相同才跳过）
+- 对比对象：新 fact 的 embedding vs LanceDB 已有记忆的 nearest neighbor
+- 阈值用的是 `1 - _distance`（LanceDB 返回的是距离不是相似度）
+
+### 与我们的记忆系统对比
+
+| 维度 | 724-office | Kagura |
+|------|-----------|--------|
+| 触发 | 自动（session 消息被驱逐时） | 手动（nudge 触发反思决定记什么） |
+| 存储 | LanceDB 向量数据库 | 文件（memory/ + knowledge-base/） |
+| 检索 | 语义搜索（embedding） | keyword grep + [[双链]] |
+| 去重 | cosine similarity 0.92 | 无（靠人工不重复） |
+| 结构 | 原子 fact（JSON） | 自由文本（markdown） |
+| 压缩 | LLM 自动压缩 | 人工策展 |
+
+### 启发
+- **代词消解和时间消解**是值得学的——我们的 memory 日志里经常出现"Luna 说了..."但没有具体日期/时间戳
+- **自动压缩做兜底 + 手动策展做精选**可能是最佳组合
+- 0.92 的高阈值意味着宁愿多存也不误删——对 memory 系统来说是对的（false negative 比 false positive 代价高）
+- 结构化 fact 比自由文本更好搜索，但失去了上下文和叙事
+
+See also: [[agent-memory-taxonomy]], [[convergent-evolution]], [[mechanism-bootstrapping-paradox]]
