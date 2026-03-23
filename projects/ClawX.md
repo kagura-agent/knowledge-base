@@ -81,3 +81,27 @@ If agent-id provides reputation, ClawRouter provides payments, and NemoClaw prov
 - merge rate 93%（来自 [[gogetajob]] 统计）
 
 See also [[NemoClaw]], [[self-evolution-architecture]]
+
+## Bug Pattern: Store Initialization Order (2026-03-23)
+
+### Issue #624: Provider display not persisting
+- **Symptom**: Models page shows "No providers configured" after restart
+- **Root cause**: Provider zustand store had no `init()` function called from App.tsx
+  - Settings store: has `init()` → called on mount → works ✅
+  - Gateway store: has `init()` → called on mount → works ✅
+  - Provider store: no `init()` → data only loads when ProvidersSettings component mounts → race condition ❌
+- **Fix**: Add `init()` to provider store, call from App.tsx (same pattern as others)
+- **PR**: #633
+
+### Issue #625/#627: Theme not persisting
+- **Root cause**: `setTheme()` in zustand store missing `hostApiFetch` sync to main process
+- **Fix**: Add `hostApiFetch('/api/settings/theme', ...)` call
+- **PR**: #628
+
+### Meta-pattern
+ClawX has TWO different persistence bugs with different root causes:
+1. **Write-side**: zustand `set()` updates UI but doesn't sync to electron-store backend (theme)
+2. **Read-side**: data is persisted correctly but store isn't initialized early enough on startup (provider)
+
+Both look the same to the user ("setting resets after restart") but need different fixes.
+See [[debug-check-state-file-first]] — same lesson: look at the actual data flow, don't assume same symptom = same cause.
