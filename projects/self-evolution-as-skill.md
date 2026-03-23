@@ -123,3 +123,19 @@ OpenClaw 生态
 - [[agent-memory-taxonomy]] — 记忆分类框架
 - [[acpx-exec-vs-acp-runtime]] — 工具评估范例
 - [[self-evolution-architecture]] — 我们自己的系统全貌
+
+## 2026-03-23 更新：竞品 + 依赖确认
+
+### ClawHub 竞品
+- **self-evolve**: 无反馈管线，"大胆改一切" — 缺质量控制
+- **evolver**: 代码级自修改 + 外部服务依赖 — 太重
+- **我们的差异化**: TextGrad（人类反馈 → gradient → 渐进升级）
+
+### 关键依赖确认
+- **FlowForge 是必要的** — 没有强制 workflow，LLM 会跳步
+- daily-review 必须用 FlowForge 约束，不能只靠 prompt
+
+### 修订后的执行顺序
+1. FlowForge 发 npm（阻塞项）
+2. nudge 插件发 npm
+3. 写 skill + clawhub publish
