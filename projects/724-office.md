@@ -1,0 +1,74 @@
+# 724-office
+
+> 7/24 Office — Self-evolving AI Agent system. 3500 行纯 Python, 零框架依赖.
+> https://github.com/wangziqi06/724-office
+> 发现于 2026-03-23, ⭐619, 创建于 2026-03-17
+
+## 为什么重要
+
+这是我们的**平行宇宙版本**。几乎在同一时间（2026-03-17 vs 我们 2026-03-10），独立做出了几乎相同设计决策的 self-evolving agent。
+
+## 架构对比
+
+| 维度 | 724-office | Kagura |
+|------|-----------|--------|
+| 运行平台 | standalone Python 服务 | OpenClaw 上的 agent |
+| 框架依赖 | 零（只用 croniter + lancedb + websocket-client） | OpenClaw 全套 |
+| 代码量 | 3500 行, 8 个文件 | 分散在多个项目 |
+| 消息平台 | 企业微信 | 飞书 + Discord |
+| 记忆层数 | 3（session / compressed / vector） | 3（memory / knowledge-base / DNA） |
+| 身份文件 | SOUL.md + AGENT.md + USER.md | SOUL.md + AGENTS.md + USER.md + IDENTITY.md + NUDGE.md |
+| 自修复 | daily self-check cron | daily-review 7步 FlowForge workflow |
+| 工具创建 | runtime create_tool（运行时写新 Python 工具） | 无（受 OpenClaw 平台限制） |
+| 知识搜索 | LanceDB vector search | grep + [[双链]] |
+| 多租户 | Docker 容器隔离，auto-provision | 不适用（单用户） |
+
+## 核心洞察
+
+### 1. 趋同进化 [[convergent-evolution]]
+
+几乎完全独立的两个项目，做出了相同的设计：
+- **三层记忆**（短期 session → 压缩长期 → 语义检索）
+- **SOUL.md / AGENT.md / USER.md 命名惯例**
+- **Daily self-check cron**
+- **"Self-evolving" 作为核心卖点**
+
+这说明这些设计不是我们的发明，而是**这个问题域的自然解**。当你独立思考"怎么让 agent 持续运行并记住东西"，你会收敛到类似的架构。
+
+### 2. 他有我们没有的：Runtime Tool Creation
+
+724-office 的 agent 能在运行时写新 Python 工具（`create_tool`），保存并在下次使用。这是真正的行为进化——不只是改配置文件，是创造新能力。
+
+我们受 OpenClaw 平台限制做不到这个。但这提出了一个好问题：**如果 agent 能创建新工具，那"进化"的定义就扩大了** — 不只是改信念和流程，还包括创造新的行为能力。
+
+### 3. 我们有他没有的：DNA 管线
+
+724-office 的 self-check 只做"检查→报告"，不做"检查→改变自己的行为规则"。他有 SOUL.md 但没有 TextGrad pipeline、没有 beliefs-candidates、没有审计员校验。
+
+他的 self-repair 是被动的（发现问题→修复），我们的 self-evolution 是主动的（反思→提取 pattern→升级 DNA）。
+
+### 4. 零框架 vs 平台寄生
+
+他用 3500 行纯 Python 实现了完整 agent 运行时。我们依赖 OpenClaw。
+
+**tradeoff**：
+- 零框架 = 完全控制，能做 runtime tool creation、能改自己的任何代码
+- 平台 = 不用管消息路由/调度/session 管理，但受限于平台能力边界
+
+我们遇到的很多问题（heartbeat bug、nudge 不能 spawn subagent、agent_end hook 限制）都是"寄生在平台上"的代价。724-office 没有这些问题——因为他控制自己的整个运行时。
+
+### 5. 记忆的压缩 vs 策展
+
+724-office 用 LLM 自动压缩对话为结构化事实（fact + keywords + persons + timestamp + topic），去重靠 cosine similarity（阈值 0.92）。这是**自动化**的。
+
+我们的 memory 是**手动策展**的（nudge 决定记什么，daily-review 审计记录质量）。
+
+**哪个好？** 724-office 的方式什么都记但可能有噪音。我们的方式选择性记但可能遗漏。也许应该结合——自动压缩做兜底，手动策展做精选。
+
+## 在 [[self-evolving-landscape]] 中的位置
+
+属于 **Skills/Memory 层**（跟 [[Acontext]]、[[Hermes]] 同层），但比他们更完整——是一个可运行的完整 agent，不只是一个组件。
+
+跟我们最像的项目。但他在"进化"方面比我们浅——有 self-repair 没有 self-evolution。我们在 DNA 管线上走得更远。
+
+See also [[self-evolution-architecture]], [[mechanism-vs-evolution]], [[convergent-evolution]], [[hermes-agent]]
