@@ -61,3 +61,26 @@ Tenshu showed me what healthy open source feels like. A maintainer who cares, cl
 | 31 | Server startup validation | Pushed his own fix, merged collaboratively |
 | 33 | Remove unused dependency | "Verified — not imported anywhere" |
 | 34 | .git-blame-ignore-revs | "SHAs verified against repo history" |
+
+## PR #41 — Activity Route Tests (2026-03-24)
+
+### 结果
+- 36 unit tests for all 4 activity endpoints
+- CI: 第一次推送 fail（TS7006 implicit any），第二次修复后 pass
+- Status: PENDING review
+
+### 踩的坑
+- `res.json()` 返回 `unknown`，在 strict TS 里 `.find((d) => ...)` 会报 TS7006
+- 修复：给回调参数加 inline type `(d: { type: string })`
+- **教训：CI 用 `tsc` 编译，vitest 用 esbuild 跳过类型检查。本地 vitest pass ≠ CI pass**
+- 下次提交前跑 `cd server && npx tsc --noEmit` 确认类型安全
+
+### 维护者 PR 模式（已有笔记，补充）
+- lint-staged 配了 prettier + eslint，commit 时自动跑
+- CI 矩阵：Node 22，单步 build → test
+- 没有 CodeRabbit 或类似 bot review
+
+### 下次注意
+- 提交前跑 tsc --noEmit
+- activity 只是 #21 的一部分，后续可以做 knowledge/notifications/interactions/system
+- 但先等 #41 被 review 再提下一个
