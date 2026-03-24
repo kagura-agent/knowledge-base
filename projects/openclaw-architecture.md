@@ -140,3 +140,12 @@ api.registerContextEngine(id, factory)             // 上下文引擎
 - Tyler Yust (tyler6204) 维护 agents/subagents 模块
 - 14 个 attachment 测试 pre-existing failure（main 上也是）——不是我的问题
 - **教训**：openclaw 的 pre-commit hook 非常严格，但 Node 版本不匹配 (要 22.16+，我 20.19.6) 导致大量 WARN
+
+### Hollychou924 Root Cause Analysis (2026-03-24)
+- 小米工程师，对 cron+subagent 做了代码级死锁分析
+- #53202 核心：announce 走 agent call path（90s timeout），parent lane occupied → deadlock
+  - Fix options: system event injection / lower announce timeout / non-blocking announce queue
+- #53201 核心：cron delivery 只用 runEmbeddedPiAgent return 的 payloads，announce run 的 output 不进管线
+  - Fix options: union payloads / stream-collect from session / wait-for-idle
+- 两个问题应一起修
+- **学习点**：这种代码级追踪分析方式（A 调 B 等 C 等 A）是精确诊断的范例
