@@ -197,3 +197,38 @@ flush agent 在 session reset 时 spawn 临时 agent 审查旧对话并保存记
 - 但 CONTRIBUTING.md 写得很好（bug fix 优先、cross-platform 其次）
 - 这是一个"maintainer-heavy"项目，不像 gitclaw/ClawX 对外部友好
 - **策略**：选小而精的 bug fix，不指望高 merge rate
+
+## teknium1 工程模式学习 (2026-03-24)
+
+深入读了 #2235（background review）和 #2687（stale memory）的完整 diff。
+
+### 模式 1: 防御性编码
+- 每个外部操作 try/except + logger.debug
+- "Non-fatal" 注释解释为什么吞异常
+- daemon=True 线程永不阻塞主流程关闭
+- **反直觉**：不追求 crash-fast，追求 graceful degradation
+
+### 模式 2: Prompt 工程写在代码里
+- Review prompt 是类常量（`_MEMORY_REVIEW_PROMPT`），不是运行时拼接
+- 问题具体化："has the user revealed... persona, desires, preferences"
+- 明确停止条件："If nothing is worth saving, just say 'Nothing to save.' and stop"
+- COMBINED prompt 合并两种 review（节省一次 agent spawn）
+- **跟我们的对比**：我们的 NUDGE.md 更泛化（"有值得记的事吗"），已参照改进
+
+### 模式 3: 测试比修复代码多
+- #2687: 50 行修复 + 167 行测试（3:1 比例）
+- 测试覆盖：正常路径 + cron 跳过 + 文件不存在 fallback
+- 参见 [[static-regression-tests]]，ericksoa #330 也是这个模式
+
+### 模式 4: 写入前读取当前状态（anti-stale）
+- "IMPORTANT — here is the current live state of memory"
+- "Do NOT overwrite or remove entries unless... genuinely supersedes them"
+- "Only add new information that is not already captured below"
+- **关键洞察**：给 model 看已有内容，防止盲写覆盖
+- 已应用到我们的 NUDGE.md："写入前先读目标文件当前状态，不盲写"
+
+### 模式 5: 触发时机分离
+- Memory: turn 开始时检查（用户轮次计数）
+- Skill: response 完成后检查（工具迭代计数）
+- Background spawn: response 投递后、return 前
+- 原则："runs AFTER the response is delivered so it never competes"
