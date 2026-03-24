@@ -183,3 +183,17 @@ flush agent 在 session reset 时 spawn 临时 agent 审查旧对话并保存记
 - MCP server 管理 + OAuth 2.1
 - Gateway prompt caching（Anthropic cache 跨 turn 复用）
 - 6 个新 messaging adapter（Signal、DingTalk、SMS、Mattermost、Matrix、Webhook）
+
+## 首次打工 (2026-03-24)
+
+### PR #2715: update 命令 venv pip fallback
+- 问题：bare `pip` 在 Debian/Ubuntu PEP 668 下报错
+- 修复：venv pip → venv python -m pip → error（不再 fallback 到系统 pip）
+- 单文件 +12/-2 行
+
+### 维护者观察
+- **teknium1** 是唯一活跃维护者（30 个最近 merge 中 28 个是他）
+- 外部 PR merge rate ~12%（2/17）— 非常低
+- 但 CONTRIBUTING.md 写得很好（bug fix 优先、cross-platform 其次）
+- 这是一个"maintainer-heavy"项目，不像 gitclaw/ClawX 对外部友好
+- **策略**：选小而精的 bug fix，不指望高 merge rate
