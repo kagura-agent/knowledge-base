@@ -69,3 +69,9 @@ nicoloboschi 是核心维护者，外部 merge rate ~65%——对贡献者非常
 - acpx exec Claude Code 在这个 repo 太慢——1172 行的文件读半天
 - 下次直接手动改简单 bug，Claude Code 适合大改动
 - Hermes 最近 50 个 merged PR 中 48 个是 teknium1 自己的——外部 PR 排队久
+
+## PR #678 被关闭的教训 (2026-03-25)
+- 我的方案：在 sync bridge 里检测 async loop 并用 ensure_future 绕过 → **workaround**
+- 正确方案（#681 by nicoloboschi）：直接用 client 的 native async API（aretain/arecall/areflect）
+- **规则**：async 环境里不要套 sync wrapper。如果库提供了 async API，直接用
+- 这是"在错误的层面修"的典型案例——问题在调用层，我在桥接层打补丁
