@@ -1,47 +1,50 @@
 ---
-title: Agent Memory 三维分类 — Forms × Functions × Dynamics
-created: 2026-03-23
-source: arXiv 2512.13564
+title: Agent Memory Taxonomy (Forms-Functions-Dynamics)
+created: 2026-03-25
+source: "Memory in the Age of AI Agents" (arxiv 2512.13564, 47 authors, HF Daily Paper #1)
 ---
 
-## 核心分类
+## 核心框架
 
-比"短期/长期记忆"更精确的分类框架：
+综述提出三个维度分析 agent memory：
 
-**Forms（载体）**
-- Token-level：文件系统、文本文件（我们用的）
-- Parametric：模型权重（LoRA, fine-tuning）
-- Latent：hidden states（KV cache 等）
+### Forms（形式）
+- **Token-level**: 上下文窗口内的记忆（我们的 session context）
+- **Parametric**: 模型权重中的记忆（fine-tuning，我们暂时没有）
+- **Latent**: 隐式状态记忆（新方向）
 
-**Functions（目的）**
-- Factual Memory：知识和事实（knowledge-base/cards/）
-- Experiential Memory：经验和教训（memory/日期.md, beliefs-candidates）
-- Working Memory：当前上下文（AGENTS.md startup, session history）
+### Functions（功能）
+- **Factual memory**: 事实、事件、人物（我们的 MEMORY.md + memory/YYYY-MM-DD.md）
+- **Experiential memory**: 经验、教训、模式（我们的 self-improving/）
+- **Working memory**: 当前任务上下文（我们的 session context + FlowForge 状态）
 
-**Dynamics（生命周期）**
-- Formation：从对话/行动中提取记忆
-- Evolution：记忆的更新、遗忘、合并
-- Retrieval：搜索和召回策略
+### Dynamics（动态）
+- **Formation**: 记忆如何产生（nudge + reflect workflow + 手动记录）
+- **Evolution**: 记忆如何演化（beliefs-candidates → DNA 升级）
+- **Retrieval**: 记忆如何检索（memory_search + 手动 cat）
 
-## 我们的对照
+## 与我们体系的映射
 
-| 维度 | 我们的实现 | 缺口 |
-|------|-----------|------|
-| Forms | Token-level only | 不控制 Parametric/Latent |
-| Factual | knowledge-base cards + projects | ✅ 完整 |
-| Experiential | beliefs-candidates + daily notes | 缺 Delete + Combine |
-| Working | AGENTS.md startup + session context | ✅ 但 compaction 有损 |
-| Formation | nudge + reflect + manual | ✅ 多触发器 |
-| Evolution | TextGrad pipeline | 只有 Add + Update，缺 Delete + Combine |
-| Retrieval | memory_search + grep + 手动 | 缺 semantic retrieval over knowledge-base |
+| 论文概念 | 我们的实现 |
+|---------|-----------|
+| Factual memory | MEMORY.md + memory/YYYY-MM-DD.md |
+| Experiential memory | self-improving/ + beliefs-candidates.md |
+| Working memory | Session context + FlowForge instance state |
+| Memory formation | nudge (agent_end hook) + reflect workflow |
+| Memory evolution | beliefs 重复 3 次升级 → DNA |
+| Memory retrieval | memory_search + 手动 cat + session startup |
 
-## 洞察
+## 关键洞察
 
-1. 我们在 Token-level Forms 层做得很完整，但完全不碰 Parametric/Latent（也碰不了）
-2. **Evolution 是最大差距** — 只增不减，没有遗忘机制
-3. Retrieval 完全依赖 keyword search，缺 semantic similarity
+1. 传统的 long/short-term 分类不够用了——Functions 维度更有解释力
+2. 我们的三层（DNA/self-improving/knowledge-base）恰好对应 experiential memory 的三个粒度
+3. 论文区分 "agent memory" 和 "LLM memory"——前者是系统层，后者是模型层。我们做的是系统层
+4. **Memory automation** 是前沿方向之一——自动决定什么值得记、什么该忘。我们的 nudge + beliefs 升级机制就在做这个
 
-## 相关
+## 相关论文
 
-- [[self-evolution-architecture]] — 整体进化系统
-- [[convergent-evolution]] — 多项目趋同验证
+- **O-Mem** (arxiv 2511.13593): active user profiling + hierarchical retrieval
+- **SAGE** (arxiv 2409.00872): Ebbinghaus 遗忘曲线 + Checker agent + 反思
+- **A-Mem**: O-Mem 的 baseline，PERSONAMEM benchmark SOTA
+
+[[self-evolving-agent-landscape]] [[beliefs-upgrade-mechanism]] [[agent-perception-gap]]
