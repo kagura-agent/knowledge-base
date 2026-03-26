@@ -314,3 +314,9 @@ flush agent 在 session reset 时 spawn 临时 agent 审查旧对话并保存记
 - [[Platform Fault Isolation]] — OpenClaw #54894 就是缺这个
 - [[claude-subconscious]] — 两者都在做 agent 记忆，但架构不同
 - [[openclaw-architecture]] — 对比 Hermes 的 gateway 设计
+
+## PR #2715 被关教训 (2026-03-26)
+- 被 #3099 supersede（从 #2655 salvage）
+- 同一 bug 两处出现（`cmd_update` + `_update_via_zip`），我只修了一处
+- 维护者 teknium1 的 salvage 模式：从社区 PR 提取好的部分，补全后自己 merge
+- **下次提 Hermes PR 前**：grep 全 codebase 搜同一 pattern，确保全覆盖
