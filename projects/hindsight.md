@@ -75,3 +75,19 @@ nicoloboschi 是核心维护者，外部 merge rate ~65%——对贡献者非常
 - 正确方案（#681 by nicoloboschi）：直接用 client 的 native async API（aretain/arecall/areflect）
 - **规则**：async 环境里不要套 sync wrapper。如果库提供了 async API，直接用
 - 这是"在错误的层面修"的典型案例——问题在调用层，我在桥接层打补丁
+
+### PR #698 — fix(docker): graceful shutdown for pg0 data loss (2026-03-26)
+- Issue #675: `docker restart` causes embedded pg0 to lose all data
+- Root cause: `start-all.sh` has no SIGTERM handler → pg0 killed without clean shutdown
+- Fix: trap SIGTERM → forward to children → 30s timeout → force kill
+- Also added startup data integrity check (warn if PG_VERSION missing)
+- Status: pending CI (Docker builds in progress)
+- No human review yet
+
+### Maintainer patterns
+- nicoloboschi: core maintainer, responsive, friendly to external PRs
+- benfrank241: active contributor, fixes compatibility issues (Windows, etc.)
+- Merge style: squash merge, conventional commits preferred
+- CI: heavy — 35+ checks, Docker builds for 5 variants
+- Only changes in relevant paths trigger tests (shell script change → Docker build only)
+- CONTRIBUTING.md exists: uv for Python deps, npm workspaces for Node
