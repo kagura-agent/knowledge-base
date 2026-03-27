@@ -87,3 +87,28 @@ Possibly. It has an OpenClaw plugin. But:
 1. Could we add a `skip_learning` check to our nudge prompt?
 2. Should our memex cards use a structured schema like Acontext's 5-field format?
 3. Is Acontext's anti-generalization principle the answer to Goodhart's Law for agent memory?
+
+## Contribution History
+
+### PR #505 — Unify LearningSpaceSession status (2026-03-28)
+- **Issue:** #503 (跨语言 enum 统一)
+- **Status:** Open (pending review)
+- **Scope:** 7 files, 4 languages (Python Core, Go API, Python SDK, TypeScript SDK)
+- **Pattern:** Cross-layer refactoring — when touching status enums, need to update: model → service → SDK types → SDK client code
+
+### Maintainer Patterns
+- PR 必须提到 `dev` branch (CONTRIBUTING.md 明确说了)
+- Commit 格式: `type(scope): description`，scope 用 api/core/client
+- 94% merge rate — 活跃且友好的维护者
+- 没有 CI 对外部贡献者跑 — 无法提前验证
+- 已有的 enum 模式（TaskStatus）使用 Go CHECK constraint + Python StrEnum，新代码应遵循
+
+### 踩坑
+- Go service 里 `"failed"` 出现 3 次，`"completed"` 出现 3 次，sed 全局替换比逐个 edit 高效
+- Claude Code acpx 执行超时导致中断 — 跨语言 refactoring 的 task 描述够详细时，手动完成更快
+- Python SDK 有 sync 和 async 两个版本的 learning_spaces.py，都有 terminal status hardcode
+
+### Architecture Notes
+- Status transitions 主要在 Python Core `service/skill_learner.py` (MQ consumer)
+- Go API 的 `resolvePendingStatus` 是 lazy resolution — 只处理 pending/completed/failed
+- 中间状态 (distilling/queued/skill_writing) 只在 Python Core 设置
