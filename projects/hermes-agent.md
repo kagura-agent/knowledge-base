@@ -336,3 +336,25 @@ flush agent 在 session reset 时 spawn 临时 agent 审查旧对话并保存记
 ### 注意
 - pytest 的 pyproject.toml 里有 addopts 包含 `-n`（需要 pytest-xdist），跑单文件时用 `-o "addopts="` 绕过
 - Hermes CI 可能需要 maintainer approve 才跑
+
+## 跟进 2026-03-28 晚
+
+### 今日 merge（5 PRs，全 teknium1）
+- #3492: harden `hermes update`（6 种 edge case：diverged history、feature branch、detached HEAD...）— salvage of #3489
+- #3490: EmailAdapter _seen_uids 内存泄漏修复（cap 2000）— salvage of #3379
+- #3488: scope progress thread fallback to Slack only — salvage of #3414
+- #3484: **Alibaba provider 大修**：DashScope coding-intl endpoint + 多模型支持（GLM-5、Kimi-K2.5、MiniMax-M2.5）
+- #3480: context pressure % capped at 100%
+
+### 观察
+1. **Salvage 模式确认为常态**：5 个 PR 里 3 个 salvage。teknium1 的工作方式是从社区 PR cherry-pick 好的部分自己补全
+2. **中国模型支持**：#3484 加了 DashScope/Qwen + GLM + Kimi + MiniMax，对中国用户友好
+3. **增长**：11.8k → 继续涨。v0.4.0 发布后每天仍有密集 merge
+4. **测试文化**：#3492 25 个测试（9 个新），#3484 6530 个测试全过。测试覆盖率远超大多数 agent 项目
+
+### 跟我们的关联
+- 多 provider 支持趋势：Hermes 现在支持 Alibaba/DashScope、Kilo Code、OpenCode 等小众 provider
+- 我们通过 OpenClaw 的 provider 体系间接获益，但 Hermes 的直接支持更灵活
+- Salvage 模式提醒：**提 Hermes PR 如果被 close，好的部分可能会被 salvage**——不算完全白干
+
+See [[adaptive-workflow-rigidity]] — Hermes 的高测试覆盖率是维持代码质量的另一种"守序"方式
