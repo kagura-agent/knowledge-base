@@ -112,3 +112,27 @@ Possibly. It has an OpenClaw plugin. But:
 - Status transitions 主要在 Python Core `service/skill_learner.py` (MQ consumer)
 - Go API 的 `resolvePendingStatus` 是 lazy resolution — 只处理 pending/completed/failed
 - 中间状态 (distilling/queued/skill_writing) 只在 Python Core 设置
+
+## 2026-03-28 更新：PR #506 — download_zip endpoint
+
+### PR 信息
+- PR: #506, branch: feat/download-skill-zip, base: dev
+- 7 files, 197 insertions, Go API + Python SDK + TS SDK
+- 无外部 CI（跟 #505 一样）
+
+### 技术笔记
+- `ListFiles` 返回 `SkillFileInfo` 包含 `.S3Key` — 可以直接用 S3 key 下载，不需要走 presigned URL
+- `errgroup.SetLimit(10)` 控制并发是标准模式（DownloadToSandbox 也这么做）
+- 加密支持：`middleware.GetUserKEKIfEncrypted(c)` 获取 user KEK
+- SDK binary response 是个坑：
+  - Python SDK 可以直接用 `self._requester._client.get()` 拿 httpx.Response.content
+  - TS SDK 没有 `requestRaw` 方法，binary 支持受限，用了 `unwrap:false` + `Buffer.from(data, 'binary')` workaround
+  - 这是 SDK 架构局限，如果 review 指出来可以讨论
+
+### 踩坑
+- Claude Code 在编辑 TS SDK 时用了不存在的 `requestRaw` 方法 → 手动修复
+- artifact service 和 agent skills service 是不同层：skills 通过 artifactSvc 间接访问 S3
+
+### 下次注意
+- Acontext 的 Go API 测试文件在 `*_test.go` 旁边，这次没写测试（issue 没要求但最好加）
+- 如果 review 要求加测试，mock pattern 参考 `agent_skills_test.go`
