@@ -170,3 +170,9 @@ Claude Agent SDK 没有原生 tool_choice 参数，通过两个机制模拟：
 
 ### 跟 [[retrieval-is-the-bottleneck]] 的关联
 reflect 是 hindsight 的**主动读取机制**——周期性合成 mental models。但如果 tool_choice 坏了，reflect 就退化成纯 text generation（猜而不查）。这跟我们的"不查就说"问题本质相同：有工具但不用。
+
+### CI 注意事项
+- hindsight CI 非常重：30+ checks（build docker ×5, test-api, test-embed, integration tests ×多, client tests ×5 语言, doc-examples ×4）
+- 很多 integration test 需要 API server + DB，PR CI 经常因基础设施问题 fail（不是代码问题）
+- 验证方式：看 build-api-python-versions 和 check-openapi-compatibility 是否 pass（这些才是代码质量检查）
+- 对比其他 open PR 的 CI 状态确认不是自己的问题
