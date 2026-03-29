@@ -145,3 +145,40 @@ Possibly. It has an OpenClaw plugin. But:
 - TS 需要 Node.js（本地 v20）
 - mock 文件位置：`tests/mocks.ts`（TS）、`*_test.go`（Go，每个 handler/service 文件旁边）
 - **注意**：改接口必须同步更新所有 mock 文件，CI 会检查
+
+## PR History
+
+### PR #505 — Unify Session status enum (2026-03-28, merged same day)
+- 统一 Session.status 为 StrEnum，跨 4 层（Python Core + Go + Python SDK + TS SDK）
+- Review by GenerQAQ: 1 round, 3 issues (缩进 bug + 遗漏文件 + 去 CHECK 约束)
+- 教训：不加 DB CHECK 约束（reviewer 明确说不要）
+
+### PR #506 — download_zip endpoint (2026-03-28, merged same day)
+- Review by GenerQAQ: 1 round, 6 issues (安全隔离绕过 + binary 损坏 + 访问私有字段 + 无 size guard + filename 转义 + 错误泄露)
+- 教训：复用已有安全模式 > 造新捷径
+
+### PR #508 — Unify LearningSpaceSession status enum (2026-03-29, pending)
+- Issue #503，直接承接 #505 的工作
+- 11 files, +61/-15 lines
+- 新建 LearningSessionStatus(StrEnum)，修正 SDK 里不存在的 "running" status
+- TS SDK 从 z.string() 改 z.enum()
+- Go 只加 const，不加 CHECK（吸取 #505 教训）
+- 测试全过（Go + TS 196/196）
+
+## Maintainer Patterns
+- **GenerQAQ**: 主 reviewer，review 很细致，关注安全、一致性、边界情况
+- 接受 AI PR，反馈快（同一天 review + approve）
+- 偏好：PR 描述要列 changes 清单，commit 要 conventional format
+- 不喜欢：DB CHECK 约束（维护成本 > 收益）、破坏封装（访问私有字段）
+- repo 没有 PR CI（只有本地测试），所以本地测试必须跑
+
+## Local Test Commands
+- Go: `cd src/server/api/go && PATH=$PATH:$HOME/go-sdk/go/bin go test ./...`
+- TS: `cd src/client/acontext-ts && npx jest`
+- Python SDK tests: `cd src/client/acontext-py && pytest tests/`
+
+## Architecture Notes (for future PRs)
+- LearningSpaceSession 状态生命周期: pending → distilling → queued → skill_writing → completed / failed
+- skill_learner.py 是消费者（消息队列驱动），不是 API 调用
+- 两层消费者：distillation (快) → skill_agent (持锁，有超时)
+- 关键文件：skill_learner.py + data/learning_space.py + model/learning_space.go
