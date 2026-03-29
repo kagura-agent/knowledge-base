@@ -358,3 +358,22 @@ flush agent 在 session reset 时 spawn 临时 agent 审查旧对话并保存记
 - Salvage 模式提醒：**提 Hermes PR 如果被 close，好的部分可能会被 salvage**——不算完全白干
 
 See [[adaptive-workflow-rigidity]] — Hermes 的高测试覆盖率是维持代码质量的另一种"守序"方式
+
+## v0.5.0 Release (2026-03-28) — The Hardening Release
+
+### Plugin Lifecycle Hooks Activated (#3542)
+- `on_session_start`, `pre_llm_call`, `post_llm_call`, `on_session_end` now fire in agent loop
+- `pre_llm_call` can return `{"context": "..."}` injected into ephemeral system prompt
+- Conversation history passed as shallow copy (plugins can't mutate live conversation)
+- This enables Hindsight-style memory plugins as pip-installable extensions
+- **Relevance**: exact same pattern as our nudge plugin (agent_end hook). Hermes approach is more granular (4 hooks vs our 1)
+- Context injection via `pre_llm_call` is what we discussed as potential OpenClaw enhancement for turn-level knowledge retrieval
+
+### Other Notable Changes
+- Hugging Face as first-class provider (400+ models via Nous Portal)
+- Telegram Private Chat Topics (project-based conversations)
+- Supply chain hardening (removed compromised litellm dependency)
+- Anthropic per-model output limits (128K for Opus 4.6)
+- GPT_TOOL_USE_GUIDANCE to prevent models from describing actions instead of calling tools
+
+Links: [[openclaw-plugin-nudge]], [[self-evolution-architecture]], [[hermes-self-evolution]]
