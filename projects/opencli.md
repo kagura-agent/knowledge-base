@@ -22,6 +22,16 @@
 
 ## 我们的 PR
 - #583: GitHub adapter（5 个 YAML 命令），等 review
+- #608: fix(xiaohongshu): check login wall before autoScroll in search (fixes #597)
+  - 4 files changed: search.ts, dom-helpers.ts, search.test.ts, dom-helpers.test.ts
+  - 397 tests pass, tsc clean
+  - 处理模式：检测 login wall DOM → 抛 AuthRequiredError → 提示用户登录而非无限滚动空结果
+
+## 开发笔记
+- 测试框架：vitest, `npm test`
+- 无 CI 配置（全靠本地测试）
+- 每个 adapter 在 `src/clis/<platform>/` 下
+- 浏览器类 adapter 常见的 login wall 处理模式：检测 DOM 特征 → AuthRequiredError
 
 ## 跟我们的关联
 - Luna 的 "cli-everything" 方向的具体实现
