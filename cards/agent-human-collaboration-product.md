@@ -1,5 +1,7 @@
-# Agent-Human Collaboration as Product
-
+---
+title: "Agent-Human Collaboration as Product"
+created: 2026-03-25
+---
 > The product isn't the tool or the hosting — it's the trained agent + the ongoing relationship.
 
 ## The Gap

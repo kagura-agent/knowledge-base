@@ -1,5 +1,7 @@
-# Dependency vs Association
-
+---
+title: "Dependency vs Association"
+created: 2026-03-24
+---
 Code references are **dependencies** — you can't understand the current function without jumping to the called function. Not jumping means you're stuck.
 
 Knowledge links (wiki links, backlinks, `[[双链]]`) are **associations** — you can understand the current card without following the link. Not jumping just means you miss context.
