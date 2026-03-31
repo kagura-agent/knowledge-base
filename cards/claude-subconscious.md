@@ -1,5 +1,7 @@
-# claude-subconscious (Letta AI)
-
+---
+title: "claude-subconscious (Letta AI)"
+created: 2026-03-25
+---
 ## 概述
 给 Claude Code 加"潜意识"——一个异步后台 agent 监听每次对话，读文件、搜网页、积累记忆，下次 prompt 前通过 stdout "低语"回来。2.4k⭐，MIT，TypeScript。标注为 demo，生产版是 letta-code。
 

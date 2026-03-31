@@ -1,5 +1,7 @@
-# Code Review 教训
-
+---
+title: "Code Review 教训"
+created: 2026-03-26
+---
 ## 安全/健壮性不是 afterthought
 提交前检查：
 - 有没有绕过已有的权限/隔离模式？

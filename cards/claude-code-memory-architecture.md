@@ -1,5 +1,7 @@
-# Claude Code Memory Architecture
-
+---
+title: "Claude Code Memory Architecture"
+created: 2026-03-25
+---
 > Anthropic's four-layer memory system for coding agents — the most mature production memory architecture available.
 
 ## The Four Layers

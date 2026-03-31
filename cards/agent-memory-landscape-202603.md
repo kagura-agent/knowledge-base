@@ -1,5 +1,7 @@
-# Agent Memory 领域动态 — 2026 年 3 月
-
+---
+title: "Agent Memory 领域动态 (2026-03)"
+created: 2026-03-25
+---
 ## Letta 生态
 - letta-code v0.21.x：从 CLI 工具转向可嵌入 agent runtime（WebSocket Listener）
 - /doctor 命令审计 memory 结构，reflection snapshot，skill enable/disable
