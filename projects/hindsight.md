@@ -220,3 +220,8 @@ reflect 是 hindsight 的**主动读取机制**——周期性合成 mental mode
   - 为 decay/utility scoring 打基础
 - #748 跳过：维护者明确拒绝暴露 relevance score（composite score 不适合给客户端 threshold）
 - 当前 3 open PR (#790 + #794 + #795)，等 merge 再投入
+
+## 2026-03-31 维护者反馈
+- nicoloboschi 关闭 #794：unit 级删除不合理，应该 document 级。他之前也删过 access_count（PR #178）
+- 维护者风格：偏好 document 级操作，对影响 recall 确定性的改动很谨慎
+- #795 等回应：需要说服 access_count 不影响 recall
