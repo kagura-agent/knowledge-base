@@ -68,3 +68,10 @@
 - 零新依赖（原生 https + crypto）
 - 关键设计：content hash > mtime，pluggable provider，incremental embedding
 - Owner 之前确认了 text-embedding-3-small 和 .memex/embeddings/ 缓存路径
+
+## 2026-03-31 PR #35
+- 基于 #34 维护者 review suggestions 的后续改进
+- embeddingModel + semanticWeight 可配置化
+- OpenAI API retry with exponential backoff (1s→2s→4s, max 3)
+- 维护者对 #34 评价极高，双 APPROVED，merge 很快
+- 策略：趁热打铁，reviewer suggestions 即刻实现 → 建立信任
