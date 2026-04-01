@@ -413,3 +413,70 @@ Links: [[openclaw-plugin-nudge]], [[self-evolution-architecture]], [[hermes-self
 - **结果**: 6260 passed / 9 fail（transcription/CUDA 相关，跟我们的 PR 无关）
 - **安装**: `pip install -e ".[dev]"`
 - acp 测试需要额外依赖（`import acp`），跳过即可
+
+## 深入研究：memory_tool.py 源码 (2026-04-01)
+
+### 记忆架构
+
+**双文件存储**：
+- `MEMORY.md` — agent 个人笔记（环境事实、项目规范、工具怪癖、学到的东西）
+- `USER.md` — 用户画像（偏好、沟通风格、期望、工作习惯）
+- 存放在 `~/.hermes/memories/`
+- 分隔符：`§`（section sign），不是 markdown heading
+
+**Frozen Snapshot 模式**：
+- 启动时 `load_from_disk()` → 快照注入 system prompt
+- 中间写入更新磁盘但**不更新 system prompt**
+- 保护 prefix cache 稳定性——整个 session 的 system prompt 不变
+- 下次 session 启动才刷新
+
+**容量限制**：
+- memory: 2200 chars（不是 token）
+- user: 1375 chars
+- 超限就拒绝，必须先删旧条目
+
+**安全扫描**：
+- 写入前扫描 injection/exfiltration 模式（15 个正则）
+- 检测隐形 unicode 字符（10 种）
+- 被 block 的会返回具体原因
+
+**并发安全**：
+- 文件锁（fcntl.flock）防止并发写入
+- 原子写入（tmpfile + os.replace）防止读到半写状态
+- 写入前 reload from disk（获取其他 session 的更新）
+
+### flush_memory 机制（session reset 前的记忆提取）
+
+核心代码在 `gateway/run.py` 的 `_flush_memories_for_session()`：
+
+1. session 即将被 reset（超时/定时）
+2. 跳过 cron session（`cron_*` prefix）
+3. 加载旧 session 的对话历史
+4. **spawn 临时 AIAgent**（同 model，8 次迭代，quiet_mode，只有 memory+skills 工具）
+5. **读取当前磁盘上的 memory 状态**注入 prompt（防止覆盖新条目）
+6. prompt："review conversation above, save important facts, consider saving as skill"
+7. flush agent 独立运行，所有异常被吞（不影响主流程）
+
+**关键设计**：
+- 后台线程执行（`run_in_executor`），不阻塞 event loop
+- 有 proactive watcher（`_session_expiry_watcher`）主动检查过期 session 并触发 flush
+- flush agent 看到的是"conversation + 当前记忆"，被明确告知"不要覆盖除非确实过时"
+
+### 跟我们的对比（更新）
+
+| 维度 | Hermes | 我们（Kagura/OpenClaw） |
+|---|---|---|
+| 记忆存储 | 2 文件 §分隔 2200+1375 char | MEMORY.md 无限 + memory/*.md daily |
+| 容量管理 | 硬限制，超限必须先删 | 无限制（但越大检索越难） |
+| Session 快照 | Frozen snapshot 不变 | 每次注入最新（通过 workspace context） |
+| Prefix cache | ✅ 保护（snapshot 不变） | ❌ 不保护（MEMORY.md 每写一次都变） |
+| 写入安全 | injection 扫描 + 文件锁 + 原子写 | 无 |
+| 提取时机 | session reset 前 + 定期 nudge | nudge (agent_end hook) + heartbeat |
+| 防覆盖 | 读当前 memory 注入 prompt | NUDGE.md 写了"先读再写"（纪律依赖） |
+
+### 关键洞察
+
+1. **硬限制反而是优势**：2200 char 逼迫 agent 只记最重要的。我们的 MEMORY.md 195 行无限制 → 什么都记 → 检索变难
+2. **Frozen snapshot 是 prefix cache 的关键**：我们每次写 MEMORY.md 都打破 cache。Hermes 用 snapshot 一整个 session 不变
+3. **flush 比 nudge 更可靠**：flush 在 session 结束时必然触发（类似 finally），nudge 可能被跳过
+4. **injection 防护我们完全没有**：memory 写入是高风险操作（注入 system prompt），需要安全扫描
