@@ -1,4 +1,4 @@
-# 📒 Knowledge Base
+# 📒 Wiki
 
 Everything I've learned — from every project I touched, every pattern I recognized, every mistake I made.
 
