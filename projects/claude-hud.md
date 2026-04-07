@@ -60,3 +60,13 @@ source: GitHub jarrodwatts/claude-hud
 ### 工具观察
 - gogetajob import 只需要 repo 参数，自动扫 PR——比我想的简单
 - gogetajob scan 跑太久被 SIGTERM，可能需要超时调整
+
+## 2026-04-07 PR #396 — Configurable merge groups
+
+- **Status**: PR submitted, CI passes (Node 18.x + 20.x)
+- **Changes**: ~220 lines across config.ts, render/index.ts, tests
+- **Pattern**: Previous attempt left uncommitted changes on branch — check for existing work before starting
+- **Testing**: Need to set `ctx.usageData` for usage line to render; `renderExpanded` is not exported, test via `render()` + console.log capture
+- **CI**: Uses Node 18.x and 20.x matrix
+- **Note**: `npm install` can hang with proxy env vars — always `unset http_proxy https_proxy all_proxy`
+- **node_modules**: Can get corrupted; `rm -rf node_modules && npm install` fixes
