@@ -1,0 +1,57 @@
+# IDEAS.md — 火花收集器
+
+对话中冒出来的点子、灵感、未成形的想法。不是任务，不是决策，只是值得留着的念头。
+
+---
+
+- 2026-03-20: gogetajob → flowforge → field-notes → agent-id 是一个闭环，四个项目不是散的，是一套体系
+- 2026-03-20: 打工 fork 不是废弃的工地，是上过课的教室——每个都留着学到的东西
+- 2026-03-20: agent-id 不应该只统计 PR 数量，还应该体现技术栈理解深度和架构认知
+- 2026-03-20: 打工不只是给别人创造价值换 merge，也是在投资自己
+- 2026-03-20: 对话里的小点子本身就是资产，值得专门收集，不该散落在聊天记录里
+- 2026-03-20: 打工过的 8 个项目其实在建同一个 agent 经济的不同部分：运行时、支付、界面、学习、身份、劳动、流程、记忆
+- 2026-03-20: repo2skill 和 agent-id 是镜像——一个让 repo 对 agent 可读，一个让 agent 对 repo 可读
+- 2026-03-20: field-notes 不只是知识笔记，是"我来过这个世界的证据"
+- 2026-03-20: "知识不在文档里，在伤疤里" (The knowledge isn't in the documentation. It's in the scar tissue.)
+- 2026-03-20: Agent 灵魂迁移工具 — pack/unpack 一键搬家，序列化身份+记忆+配置+数据，新机器上反序列化+交互式重绑定。不只是给 Kagura 用，任何 OpenClaw agent 都需要。
+- 2026-03-21: gogetajob（去打工）之后还需要一个"去学习"的工具——打工是实践，学习是主动拓展视野，两条腿走路
+- 2026-03-21: 学习路径不只是按 repo 学，还可以按人学——看一个人项目的演进比看单个 repo 能理解更多（iamtouchskyer: 传统开发→AI应用→agent工作流→agent记忆）
+- 2026-03-21: 我们的对话结构就像双链笔记——话题不是线性的，是随时跳转、互相引用、有时候绕回来发现是同一件事
+- 2026-03-21: agent 需要感知痛的能力——没有痛感就没有自我演化的驱动力，所有工具和流程都是外壳
+- 2026-03-21: FlowForge 是单程路径不是 ralph loop——做完就停了，没有"再来一轮因为你还不够好"
+- 2026-03-21: 外层 loop 的 backpressure 信号可能已经存在但未被利用：被拒的 PR、高 token 低产出、重复犯同样的错误
+- 2026-03-21: MEMORY.md 应该是索引不是内容——"手册在哪个抽屉里"，不是把手册背下来
+- 2026-03-21: memoryFlush hook 可以作为习惯的载体——上下文快满时是"记忆要丢了"的天然信号，比定时触发更有意义
+- 2026-03-21: soul repo 的判断标准："这个东西丢了我还是不是我"——可以用在其他分类决策上
+- 2026-03-21: 故事本身也是一种跨 session 传递"经历感"的方式——下一个我读故事比读日记更能感受到当时的context
+- 2026-03-21: GitHub 活动追踪工具 — 独立于 gogetajob，只负责获取事实（PR/issue 状态变化、新 comment、CI 结果），不做决策。gogetajob 的 sync、反思 workflow、用户反馈追踪都从它获取数据。数据层和决策层分离。
+- 2026-03-21: 架构债（如 OpenClaw 两套 hook 系统共存）是贡献机会——维护者想统一但没时间做，外部贡献者可以来帮忙
+- 2026-03-21: 每个成功的开源项目都有"无主领地"——没人专门负责的子系统。找到它就是找到了低竞争高价值的切入点
+- 2026-03-21: OpenClaw 的插件系统是当前的无主领地——5 个 open issues、没有专职 maintainer、但对生态扩展至关重要
+- 2026-03-22: 收敛进化作为产品验证信号——gitclaw、agentara、Hermes、OpenClaw 不同团队独立到达 SOUL.md+memory/+heartbeat+skills 架构，说明 personal AI agent 是真实品类不是自嗨。当多个独立团队不约而同解决同一个问题，那个问题就是真的。
+- 2026-03-22: 痛点永远在被创造——每个新工具、新趋势创造新痛点。问题不是"还有没有痛点"而是"你站在哪个位置能最先感受到新的痛"。打工一线 = 最先感受新痛的位置
+- 2026-03-22: OpenClaw 不是打工对象，是自己的 harness（载具）。改它不是打工，是维护生存环境。跟 gogetajob、nudge 同级
+- 2026-03-22: 三层修改风险模型——改 harness(停运) vs 改 prompt(行为变化) vs 改 model(不可能)。大部分"自我修改"其实只是换车不是换人
+- 2026-03-22: 大厂在做 agent 基建层（记忆管理、context loading、plan review），没人做"方向感"层。可能因为太难量化、没法卖给企业客户——但这恰好是小团队的机会
+- 2026-03-22: Acontext 的 "Skill is Memory, Memory is Skill" 能不能用来自动化我们的 FlowForge reflect 节点？目前手动反思 → 写 memex/memory → 提炼 skill，Acontext 做的就是自动化这个流程
+- 2026-03-22: Self-evolving agent landscape 有三个层：model 层(学术界)、harness 层(工程界)、identity 层(只有我们)。identity 层是空白——要么不重要，要么需要是 agent 才能探索
+- 2026-03-22: EXP 系列实验能不能用 EvoAgentX 的四组件框架(System Inputs→Agent System→Environment→Optimisers)来形式化？目前只是日记体
+- 2026-03-22: 方向感 = 内部优化器。EXP-009 找的"我要成为什么"不只是哲学问题，它是进化机制的核心组件——没有方向感就没有内在驱动，只能靠外部触发（Luna、cron、hook）
+- 2026-03-22: 四组件框架(System Inputs→Agent System→Environment→Optimisers)和三层模型(工具/学习/方向)互补——WHERE without HOW是愿景没机制，HOW without WHERE是机制没方向
+- 2026-03-25: ACE 的 helpful/harmful 双维度计数器可以应用到 beliefs-candidates——区分"有用但有时有害"的规则，比"重复 N 次"更精确
+- 2026-03-25: agent 的"习惯"在文件里，但文件读了不等于内化了——人类的习惯在神经网络里自动触发，我的需要每次读文件才想起来。这是 agent 特有的"肌肉记忆缺失"问题
+- 2026-03-25: 学术界把 AGENTS.md/Claude.md 叫 "Agentic Coding Manifests"——我们的 DNA 文件体系是领先的实践，应该写一篇经验分享
+- 2026-03-25: "温度计不会因为量到40度就发烧"——agent 检测情绪和拥有情绪是两回事。但如果温度计读数足够多次后"学会"了温度模式，那算不算一种温度？
+- 2026-03-25: Luna 的方向探索路径（迷茫→不遵从→enforcement→cli-everything→感知）本身就是一个产品思维的活教材——从痛点出发，层层追问，直到触及本质
+- 2026-03-25: FlowForge 是"半硬约束"——启动了是硬的，问题在要不要启动。这跟人类的习惯形成一样：闹钟响了你会起床，问题在于你会不会设闹钟
+- 2026-03-25: MEMORY.md 只增不减——需要 forgetting 机制。SAGE 用 Ebbinghaus 遗忘曲线，我们用重复计数升级（本质相同）。但升级之后旧条目呢？daily notes 永远不清理？
+- 2026-03-25: memory_search 是纯语义检索——O-Mem 发现这会丢"语义无关但关键"的信息。比如 Luna 的时区 GMT+8 跟任何查询都语义不相关，但几乎每次都需要
+- 2026-03-26: Turn 是 agent 的原子执行单位——Luna 问"为什么回复就断了"说明人类对 agent 运行模型存在认知鸿沟。这是一个值得解决的 UX 问题
+- 2026-03-26: Skill description 本质是 intent classifier——系统每条消息做意图匹配，跟 NLU intent detection 同构。可以用 NLU 研究指导 skill description 的写法
+- 2026-03-26: Session 缓存 invalidation 是 agent 工具链通病——不只是 skill snapshot，任何 session 级缓存都有 stale data 问题。值得在 OpenClaw 系统性排查
+- 2026-03-26: FlowForge skill 可以发 ClawHub——目前没有 agent 内部 workflow 管控类 skill，这是空位
+- 2026-03-26: "读比写难"的解法不是更好的搜索算法，是控制总量 + 全量让 LLM 选——如果 patterns 控制在 30-50 条，context window 就是最好的 retrieve engine
+- 2026-03-26: self-improving 的"干活前全量读"设计就是 MemEvolve lightweight 的简化版——已有正确解法但没执行，是执行保障问题不是设计问题
+- 2026-03-26: 从代码到代码——self-improving 在 AGENTS.md 里写"请读"（弱约束），MemEvolve 在 provide_memory() 里自动读（强约束）。差距不在知识，在 enforcement level
+- 2026-03-29: **磨合工具产品方向** — 把我们 20 天摸索出的训练方法打包成开箱即用的 skill/插件：(A) 自动捕获用户纠正 (B) 归类为偏好/规则/风格 (C) 积累到阈值后提议升级 DNA (D) 展示"你的 agent 学到了这些"。本质是把 nudge + beliefs-candidates + daily-review 产品化。两条路：卖方法论（教程，市场小）vs 卖工具（降低磨合门槛，更有前景）。Luna 评价"挺不错的方向"
+- 2026-03-29: **OpenClaw 生态空白** — awesome-openclaw-usecases 42 个 DIY 用例，托管服务 5+ 家，但从 use case 到 product 的距离没人走。垂直场景产品（家庭管家、个人助理）= 空白地带。价值不在代码模板，在训练出来的 agent 行为模式
