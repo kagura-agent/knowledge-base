@@ -184,6 +184,13 @@ flush agent 在 session reset 时 spawn 临时 agent 审查旧对话并保存记
 - Gateway prompt caching（Anthropic cache 跨 turn 复用）
 - 6 个新 messaging adapter（Signal、DingTalk、SMS、Mattermost、Matrix、Webhook）
 
+## Workloop #24 选题失败 (2026-04-07)
+
+### #5646 (gateway --replace exit) 放弃
+- 研究前已知 open PR 数 = 3（到上限），merge rate ~12%
+- 两个主力 repo（openclaw 4 open, hermes 3 open）都饱和
+- **结论**：暂停 hermes-agent 新提交，等已有 PR 被消化或 merge rate 改善
+
 ## Workloop #19 选题失败 (2026-04-07)
 
 ### #5668 研究后放弃
