@@ -36,11 +36,9 @@ Compound interest: good answers feed back into the wiki so you don't re-derive t
 - Contradictions (two pages say different things)
 - Missing cross-references (clearly related but not linked)
 
-## Conventions
+## Philosophy
 
-- All notes use `[[slug]]` bidirectional links — knowledge is a graph, not a tree
-- Cards are cross-project concepts; project notes are single-project observations
-- When the same pattern appears in multiple project notes → extract into a card
+Inspired by [Karpathy's LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f): compile-time knowledge accumulation > runtime RAG retrieval. Knowledge is integrated at write time, not assembled at query time. Good answers compound — they feed back into the wiki so you never re-derive them.
 
 ---
 
