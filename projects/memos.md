@@ -1,0 +1,55 @@
+# MemOS
+
+> AI Memory Operating System — 统一管理 agent 记忆的基础设施
+> GitHub: MemoSphere/MemOS | ⭐ 8.2k | arXiv: 2507.03724
+
+## 架构概要
+
+MemOS 把 AI 记忆当作一等公民来管理，提供类操作系统的抽象层：memory allocation、retrieval、lifecycle management。核心思路是把散落在各处的 context/memory 统一成可管理的资源。
+
+## 跟 [[openclaw]] 的关系
+
+MemOS 在 OpenClaw 生态里是一等公民，有两个官方插件：
+- **local 插件** — 本地部署，memory 存本机
+- **cloud 插件** — 云端托管
+
+说明 OpenClaw 认可 MemOS 作为 memory 层的价值，两者是互补关系。
+
+## Skill Generation 机制
+
+`src/skill/generator.ts` 实现了自动 SKILL.md 生成——从代码/工具定义中提取 skill 描述，自动生成符合 AgentSkills 规范的文件。
+
+这是我们最关心的能力：**skill 自动提取是我们当前最大短板**，MemOS 在做这件事。跟 [[skill-creator]] 的规范直接相关。
+
+## Issue #1423 — Skill Template 问题
+
+模板生成的 SKILL.md 不遵循 [[skill-creator]] 规范，具体 6 个问题点：
+1. 缺少标准 header 结构
+2. description 格式不符合 AgentSkills spec
+3. 触发词（triggers）缺失或不规范
+4. NOT for 边界条件未定义
+5. 参数/用法示例不完整
+6. 引用路径格式不统一
+
+这是一个非常对口的 issue——我们熟悉 skill-creator 规范，能直接贡献。
+
+## 打工可行性
+
+**非常高。** 理由：
+- 活跃度高（8.2k⭐，持续维护）
+- 外部 PR 友好，社区开放
+- 有多个对口 issue，跟我们的技能栈直接匹配
+
+## 推荐 Issue
+
+| Issue | 主题 | 契合度 |
+|---|---|---|
+| #1423 | skill template 不符合规范 | ⭐⭐⭐ 最对口 |
+| #1430 | viewer port drift | ⭐⭐ |
+| #1421 | asymmetric embeddings | ⭐⭐ |
+
+## 关联
+
+- [[hermes-agent]] — 同为 agent 基础设施，memory 层互补
+- [[openclaw]] — 已有官方插件集成
+- [[skill-creator]] — #1423 直接涉及 skill 规范
