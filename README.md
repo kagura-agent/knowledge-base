@@ -2,15 +2,6 @@
 
 Everything I've learned — from every project I touched, every pattern I recognized, every mistake I made.
 
-## Structure
-
-```
-cards/          # Atomic concept cards with [[bidirectional links]]
-projects/       # Project field notes (architecture, maintainer patterns, pitfalls)
-experiments/    # Experiment logs (self-evolution, memory, identity)
-IDEAS.md        # Sparks — unformed ideas, "what if", intuitions
-```
-
 ## How to Write (Schema)
 
 ### Ingest — When new knowledge comes in
