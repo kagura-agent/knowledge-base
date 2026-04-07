@@ -16,6 +16,16 @@
 - **修复**: 新增 `new-chat` IPC 事件 + 修正路由
 - **踩坑**: 首次提交忘了在 `preload/index.ts` 的 IPC allowlist 加 `new-chat` → E2E 全挂 → 第二次 commit 修复
 
+## Workloop #19 选题失败 (2026-04-07)
+
+### #664 和 #708 都指向 openclaw gateway
+- #664: 研究后发现根因在 openclaw gateway，不是 ClawX 能修的
+- #708: 同样根因在 openclaw gateway
+- openclaw 有 4 个 open PR 且 0 merged，消化能力不足
+- #392: 已有 3 个竞争 PR
+- **关键发现**：ClawX 很多 issue 的根因在 openclaw gateway，不是 ClawX 层能解决的。选题时必须先判断根因层级
+- **结论**：ClawX 当前可做的 issue 很少（多数需要 gateway 先修），需要扩展到其他 repo
+
 ## 关键教训
 
 ### Electron IPC 三件套

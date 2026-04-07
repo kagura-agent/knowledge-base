@@ -184,6 +184,14 @@ flush agent 在 session reset 时 spawn 临时 agent 审查旧对话并保存记
 - Gateway prompt caching（Anthropic cache 跨 turn 复用）
 - 6 个新 messaging adapter（Signal、DingTalk、SMS、Mattermost、Matrix、Webhook）
 
+## Workloop #19 选题失败 (2026-04-07)
+
+### #5668 研究后放弃
+- 研究完 issue 才发现已有 3 个 open PR（到上限）
+- **教训**：应该在 find_work 阶段就查 open PR 数，不合格直接跳过
+- 当前 open PR: 11 个，1 merged，maintainer 倾向 salvage 模式
+- **结论**：hermes-agent 当前 PR 消化能力极差，暂停新提交，等已有 PR 被处理
+
 ## 首次打工 (2026-03-24)
 
 ### PR #2715: update 命令 venv pip fallback
