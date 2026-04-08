@@ -36,6 +36,14 @@ source: GitHub jarrodwatts/claude-hud
 - 维护者 merge 率 23%——偏低，PR 质量要高
 - 没有 CI 自动跑测试，本地必须跑
 
+## 2026-04-08 PR #402 — Prompt cache TTL countdown
+
+- **Status**: PR submitted, CI passes (Node 18.x + 20.x)
+- **Changes**: 34 files, +212/-18 (new render line + config + transcript tracking + 7 tests + i18n)
+- **Pattern**: showCacheTtl defaults to false (opt-in), cacheTtlSeconds configurable (300 Pro / 3600 Max)
+- **Note**: claude --print hung with no output after 5+ min — had to implement manually
+- **Lesson**: For well-scoped features with clear architecture, manual implementation is faster than waiting for Claude Code
+
 [[self-evolving-agent-landscape]]
 
 ## PR #319 (2026-03-25): fix(setup): JSON escaping rules
