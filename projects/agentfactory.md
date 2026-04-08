@@ -1,7 +1,7 @@
 ---
 title: AgentFactory — Self-Evolving via Executable Subagent Accumulation
 created: 2026-04-05
-updated: 2026-04-05
+updated: 2026-04-08
 source: arxiv 2603.18000, GitHub zzatpku/AgentFactory
 tags: [self-evolving, skill, code-as-memory, subagent]
 depth: deep-read
@@ -141,5 +141,57 @@ AgentFactory 提出一个范式转换：把成功的任务解决方案保存为*
 - 如果任务成功且包含可复用模式 → 调用 Claude Code 生成 skill
 - 人审后 publish 到 ClawHub
 - 类似 AgentFactory 的 `finish` skill 但嵌入 FlowForge
+
+## 源码分析（2026-04-08 深挖）
+
+### meta_tools.py — Subagent 执行核心
+- `run_python_file()` 通过 `importlib` 动态加载 subagent module，调用 `main(query)`
+- 环境隔离：切换 cwd + 独立 env vars（SUBAGENT_URL/KEY/MODEL），执行后恢复
+- 超时：Unix signal.alarm，默认 600s
+- subagent 返回 `{"answer": ..., "summary": ...}` 标准格式
+- **没有沙箱**——直接 `exec_module`，跟 OpenClaw 的 `exec` 一样，信任生成的代码
+
+### create_subagent SKILL.md — 最有价值的文档
+- **强制通用化**：代码不能硬编码任务特定值，所有 query-specific 信息必须由 `call_llm` 在运行时提取
+- **质量要求**：subagent 必须是 complete pipeline（reasoning loop: think → act → observe → iterate），不是 one-shot tool
+- **输出规范**：`main(query) → {"answer": str, "summary": str}`，summary 必须用专门的 `call_llm` 生成而非截断拼接
+- **数据传递**：subagent 间用 JSON 文件中转，避免通过返回值传大数据
+- **Self-test 原则**："把 query 替换为完全不同的同类问题，代码还能跑吗？" → 不能就太 specific
+
+### Skill 保存（finish skill）
+4 种模式：新建、更新、替换（supersedes）、不保存
+- 保存时把 workspace 里所有 .py 文件复制到 skill 目录
+- 自动生成 SKILL.md 前置 YAML：`name`, `description`, `entry_file`
+
+### 跟 OpenClaw SKILL.md 格式的精确对比
+| 字段 | AgentFactory | OpenClaw |
+|------|-------------|----------|
+| frontmatter | name, description, entry_file | name, description (via available_skills injection) |
+| body | Problem Category, Features, Skills Used, Reasoning Pattern | 自由格式 agent instructions |
+| 执行方式 | Python import + main(query) | LLM 读 SKILL.md → 使用工具 |
+| 文件 | .py 代码是 skill 本体 | SKILL.md 文本是 skill 本体 |
+
+**核心洞察**：AgentFactory 的 SKILL.md 是元数据 + 文档，代码是执行体。OpenClaw 的 SKILL.md 本身就是执行体（LLM 读后执行）。两者结构几乎一致，但执行模型完全不同。
+
+## 可行的移植路径
+
+### 方案 A：在 FlowForge workloop 尾部加 skill-capture 步骤
+1. workloop 结束 → 检查本次执行是否产生了可复用模式
+2. 如果是 → 调 Claude Code 从 session transcript 生成 SKILL.md + scripts/
+3. 放入 skills/ 目录 → 人审 → ClawHub publish
+- 优点：最小侵入，不改现有架构
+- 缺点：只覆盖 workloop 场景
+
+### 方案 B：做 OpenClaw 版 AgentFactory（"SkillForge"）
+1. 新增 meta-skill set：`create_skill`, `test_skill`, `evolve_skill`
+2. 从执行轨迹自动生成 skill（可执行脚本 + SKILL.md）
+3. 集成 ClawHub 做分发
+- 优点：完整的自动化管线
+- 缺点：大工程
+
+### 方案 C：双轨制（推荐 MVP）
+- **任务级**：走类 AgentFactory 路径（代码 skill），适合重复性高的具体任务
+- **元级**：走现有 DNA 路径（beliefs → AGENTS.md），适合行为规范和原则
+- 区分标准："这个经验能变成一个独立脚本吗？" → 能就走代码，不能就走 DNA
 
 See also: [[openspace]], [[self-evolving-agent-landscape]], [[skill-type-taxonomy]], [[metaclaw]], [[clawhub-evolution-skills]]

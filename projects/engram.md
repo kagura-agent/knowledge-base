@@ -66,4 +66,23 @@ Engram 能补充的：
 - [ ] 评估 auto-capture 的记忆质量
 - [ ] 考虑 hybrid 方案：Engram auto + manual curated
 
+## 深挖补充（2026-04-08）
+
+### 架构细节
+- monorepo: `packages/{core, server, openclaw, cli}` + `adapters/{llm, embedder, storage}`
+- fact extraction 用 Claude Haiku 的 function calling，不是单纯的 text prompt
+- Dedup: vector similarity + LLM 判断（ADD/UPDATE/DELETE/NOOP）
+- Retrieval: vector similarity + BM25 hybrid
+- ~$0.001/turn 成本（Haiku extraction + local embeddings）
+- 韩文优化（Korean optimized）—— Ironact 是韩国团队
+
+### 与我们的手动方案共存策略
+- Engram auto-capture 做 **广网捕获**，确保不漏
+- MEMORY.md 做 **策展记忆**，人工筛选重要的保留
+- beliefs-candidates.md 不受影响，那是行为模式不是事实记忆
+- 风险：auto-capture 可能注入冲突信息。需要关注 dedup 质量
+
+### 试装优先级
+携家后试装。现在服务器刚迁完，稳定后再加新插件。
+
 See also: [[agent-memory-landscape-202603]], [[claude-code-memory-architecture]], [[llm-wiki-karpathy]]
