@@ -48,6 +48,24 @@ MemOS 在 OpenClaw 生态里是一等公民，有两个官方插件：
 | #1430 | viewer port drift | ⭐⭐ |
 | #1421 | asymmetric embeddings | ⭐⭐ |
 
+## PR #1434 — fix skill generation template (2026-04-08)
+
+**状态**: pending review
+**改动**: +18/-4 行，6 项改进（header 结构、description 格式、triggers、NOT for 边界、参数示例、引用路径）
+
+### 维护者模式
+- 活跃维护者：hijzy / tangbotony / Hun-ger / CaralHsi
+- 外部 PR 友好，commit 用 feat/fix 前缀
+- review 周期待观察（首次提交）
+
+### 本地测试
+- TS 项目，`npm run build` 验证编译通过
+- 无独立单元测试覆盖 skill generator
+
+### 注意事项
+- metadata 字段是 OpenClaw 特有概念，需维护者确认处理方式
+- 如果维护者对 AgentSkills 规范不熟悉，可能需要解释上下文
+
 ## 关联
 
 - [[hermes-agent]] — 同为 agent 基础设施，memory 层互补
