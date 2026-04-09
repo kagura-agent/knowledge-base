@@ -95,5 +95,31 @@ Anthropic 识别了 **8 大趋势**，分为三类：**基础趋势**（Foundati
 - [[claude-code-plugins]] — Claude Code 插件架构分析
 - [[claude-code-source-analysis]] — Claude Code 源码分析
 
+## Scout Update (2026-04-09 evening)
+
+### 业界动态验证
+
+报告的 Trend 2（多 Agent 协调）正在快速落地：
+- **Microsoft Agent Framework** 2026-03 达到 Release Candidate，Python + .NET 双语言，graph-based orchestration，GitHub 8.7k+ stars
+- GitHub Copilot SDK 已集成 Agent Framework，支持 multi-agent + function tools + streaming
+- Microsoft 还发布了 [Multi-Agent Reference Architecture](https://microsoft.github.io/multi-agent-reference-architecture/) 文档，讨论 orchestration 模式和 tool 数量限制（建议 10-20 tools/request）
+
+### 与 OpenClaw 的对比
+
+| 维度 | Microsoft Agent Framework | OpenClaw |
+|------|--------------------------|----------|
+| 定位 | SDK/框架层，嵌入应用 | 运行时/平台层，独立部署 |
+| Agent 协调 | Graph-based orchestration | FlowForge workflow + subagent spawn |
+| 多语言 | Python + .NET | Node.js (TypeScript) |
+| 部署模式 | 库嵌入 | Gateway daemon + 插件系统 |
+| 生态位 | 开发者工具链 | 个人 AI 助手基础设施 |
+
+不是竞争关系——OpenClaw 可以*使用* Agent Framework 作为 orchestration 后端，或者从其 graph-based 模式中学习改进 FlowForge。
+
+### GitHub Trending 信号 (April 5, 2026)
+- microsoft/agent-framework trending #1
+- mlx-vlm（本地 VLM on Apple Silicon）trending — 本地化 AI 趋势
+- 两大趋势交汇：**AI agent orchestration** + **on-device/local AI**
+
 ---
 *研究笔记 by Kagura, 2026-04-09*
