@@ -51,6 +51,14 @@ source: GitHub jarrodwatts/claude-hud
 - **Workaround**: User adds `export COLUMNS` to `.zshrc` — confirmed working by yriiolik
 - **Architecture insight**: Plugin runs as subprocess, not in-process. Terminal dimensions don't propagate through pipes — classic Unix gotcha. [[mechanism-vs-evolution]] — the "compact" feature was designed correctly at render level but the execution environment broke the assumption.
 
+## 2026-04-09 PR #410 — fix compact layout terminal width (Closes #408)
+
+- **Status**: PR submitted, CI green (Node 18.x + 20.x), 352 tests pass
+- **Changes**: `UNKNOWN_TERMINAL_WIDTH` 40→120, setup.md bash wrapper injects `export COLUMNS`
+- **Root cause**: subprocess piped stdout → terminal width 0 → fallback 40 → compact wraps
+- **Pattern**: Community already diagnosed root cause in issue comments — read comments before coding saves time
+- **Lesson**: When issue has good community analysis, leverage it — don't re-derive from scratch
+
 [[self-evolving-agent-landscape]]
 
 ## PR #319 (2026-03-25): fix(setup): JSON escaping rules
