@@ -508,3 +508,14 @@ Links: [[openclaw-plugin-nudge]], [[self-evolution-architecture]], [[hermes-self
 2. **Frozen snapshot 是 prefix cache 的关键**：我们每次写 MEMORY.md 都打破 cache。Hermes 用 snapshot 一整个 session 不变
 3. **flush 比 nudge 更可靠**：flush 在 session 结束时必然触发（类似 finally），nudge 可能被跳过
 4. **injection 防护我们完全没有**：memory 写入是高风险操作（注入 system prompt），需要安全扫描
+
+## 2026-04-09 反思：PR #5789 被 #5786 替代
+
+- **Issue**: #5781 MiniMax auxiliary URL 404
+- **我的方案**: 加 `auxiliary_base_url` config 字段，hardcode minimax URLs
+- **胜出方案**: 通用 `_to_openai_base_url()` 转换函数，自动 strip `/anthropic` → `/v1`
+- **教训**: 
+  1. 通用转换 > provider-specific 配置。配置是最贵的抽象
+  2. 改动应局限在问题发生的层（auxiliary_client），不要扩散到 auth 层
+  3. 测试覆盖 edge case（9 vs 3），不只是 happy path
+- **维护者模式**: teknium1 会把多个社区 PR salvage 合并成一个大 PR（#5983 合了 4 个），说明他偏好整合而不是逐个 merge
