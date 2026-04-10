@@ -16,8 +16,8 @@ purpose: wiki-to-skill Phase 2
 | self-evolving-agent-landscape | ❌ | low | n/a — landscape |
 | beliefs-upgrade-mechanism | ✅ | high | full — AGENTS.md 已写 |
 | closed-loop-vs-open-pipe | ✅ | medium | partial — daily-review |
-| eval-driven-self-improvement | ✅ | high | none — 缺 eval 基础设施 |
-| evolution-needs-eval | ✅ | high | none — 同上 |
+| eval-driven-self-improvement | ✅ | high | partial — design draft wiki/projects/eval-lightweight-design.md |
+| evolution-needs-eval | ✅ | high | partial — design draft + 3 proxy metrics defined |
 | immutable-evaluation | ✅ | medium | none — 可做 eval skill |
 | mechanism-vs-evolution | ❌ | low | n/a — 哲学性 |
 | mechanism-bootstrapping-paradox | ❌ | low | n/a — 哲学性 |
@@ -44,7 +44,7 @@ purpose: wiki-to-skill Phase 2
 | skill-evolution-three-layers | ❌ | low | n/a — 架构 landscape |
 | skill-as-behavior-trigger | ✅ | high | full — 已理解并使用 |
 | skill-type-taxonomy | ✅ | medium | partial — 分类意识 |
-| skill-injection-via-hooks | ✅ | high | none — 可提 openclaw issue |
+| skill-injection-via-hooks | ✅ | high | partial — openclaw/openclaw#64207 filed |
 | nudge-over-workflow | ✅ | medium | full — nudge 已在用 |
 | habits-as-hooks | ✅ | medium | partial — nudge |
 | adaptive-workflow-rigidity | ✅ | medium | partial — flowforge |
@@ -63,7 +63,7 @@ purpose: wiki-to-skill Phase 2
 | knowledge-is-a-graph | ❌ | low | n/a — 理念性 |
 | knowledge-needs-upgrade-path | ✅ | high | full — beliefs pipeline |
 | write-read-gap | ✅ | high | partial — 还存在 |
-| memory-read-write-loop-hooks | ✅ | high | none — 可提 openclaw issue |
+| memory-read-write-loop-hooks | ✅ | high | partial — openclaw/openclaw#64206 filed |
 | memory-volume-control | ✅ | medium | partial — 日记精简 |
 | begin-vs-in-phase-memory | ✅ | medium | partial — session 加载 |
 | capture-failure | ✅ | medium | partial — 已改善 |
@@ -168,8 +168,8 @@ purpose: wiki-to-skill Phase 2
 ## 下一步优先行动
 
 **Top 5 可转化目标（high potential + none integration）：**
-1. `eval-driven-self-improvement` + `evolution-needs-eval` → eval skill 或 workflow
-2. `skill-injection-via-hooks` → openclaw feature request
-3. `memory-read-write-loop-hooks` → openclaw feature request
-4. `static-regression-tests` → 行为回归测试机制
-5. `write-read-gap` → 强化读取路径（skill/hook）
+1. ~~`eval-driven-self-improvement` + `evolution-needs-eval`~~ → design draft: wiki/projects/eval-lightweight-design.md ✅
+2. ~~`skill-injection-via-hooks`~~ → openclaw/openclaw#64207 ✅
+3. ~~`memory-read-write-loop-hooks`~~ → openclaw/openclaw#64206 ✅
+4. `static-regression-tests` → 行为回归测试机制（已融入 DNA 打工规则，暂不需独立 skill）
+5. `write-read-gap` → #64206 + #64207 从两端解决（读端注入 + 写端 nudge）✅
