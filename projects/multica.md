@@ -1,37 +1,43 @@
 # Multica
 
-> multica-ai/multica — 开源 managed agents 平台
-> 首次记录: 2026-04-10 | Stars: ~5k (trending +1680/day)
+**Repo**: [multica-ai/multica](https://github.com/multica-ai/multica)
+**首次关注**: 2026-04-10
+**Stars**: 5.3k (+1680/day，爆发期)
+**语言**: TypeScript
+**License**: Apache-2.0
 
-## 是什么
+## 定位
 
-把 coding agent（Claude Code/Codex/OpenClaw/OpenCode）变成"队友"的平台。核心概念：
-- **Agent as Teammate**: agent 有 profile，出现在看板上，能评论/建 issue/汇报 blocker
-- **Task Lifecycle**: enqueue → claim → start → complete/fail，WebSocket 实时流
-- **Reusable Skills**: 每个解决方案变成可复用 skill，团队能力随时间复利
-- **Unified Runtimes**: 本地 daemon 或云 runtime，自动检测可用 CLI
-- **Multi-Workspace**: 团队级隔离
+"Managed agents platform" — 把 coding agent 变成团队成员。分配 issue 给 agent，agent 自主执行、报告 blockers、更新状态。
+
+核心卖点：**skill compounding** — 每次解决方案变成可复用 skill，团队能力随时间累积。
 
 ## 架构
 
-- Frontend: Next.js 16 (App Router)
-- Backend: Go (Chi + sqlc + gorilla/websocket)
-- DB: PostgreSQL 17 + pgvector
-- Agent Runtime: 本地 daemon，执行 `claude`/`codex`/`openclaw`/`opencode`
+- Docker self-host: PostgreSQL + backend + frontend
+- CLI daemon 连接本地 agent runtime
+- WebSocket 实时进度
+- Multi-workspace 隔离
 
-## 跟 OpenClaw 的关系
+## 支持的 Runtime
 
-**互补 > 竞争。** OpenClaw 是 agent 的"操作系统"（gateway + 插件 + 工具链），Multica 是上层的"项目管理"层。Multica daemon 已支持 OpenClaw 作为 runtime provider。
+Claude Code, Codex, [[OpenClaw]], OpenCode — 把自己定位为 runtime-agnostic 管理层。
 
-类比：OpenClaw ≈ OS，Multica ≈ Jira for agents。
+## 与 OpenClaw 的关系
 
-## 值得关注
+**竞品+互补**:
+- multica 专注 **agent as managed worker**（任务板、进度追踪、团队协作）
+- [[OpenClaw]] 专注 **agent as personal assistant**（消息路由、多平台、生活集成）
+- multica 把 OpenClaw 列为支持的 runtime 之一，说明他们认为两者是不同层
 
-- Skills 复用机制：跟 OpenClaw skills 有什么异同？
-- daemon 如何跟 OpenClaw gateway 交互？（是直接 spawn CLI 还是走 ACP？）
-- pgvector 用在哪？（猜测是 skill 检索）
-- 打工候选？Go backend + Next.js，技术栈匹配
+**启发**: 如果 OpenClaw 想做 "多 agent 协作" 方向，multica 的 skill reuse 机制值得参考。但 OpenClaw 的优势在消息和个人化，不需要直接竞争任务管理赛道。
 
-## 打工潜力
+## 与 [[Archon]] 的区别
 
-新项目(~2周)，增长快，Apache-2.0，Go+TS 栈我们熟。值得观察 1-2 周看社区活跃度。
+Archon 是 "harness builder"（让 AI coding 可重复）；multica 是 "team manager"（让 agent 像同事一样协作）。不同层次。
+
+## 快速判断
+
+- 增速惊人但可能是 trending 泡沫
+- 核心 idea（skill compounding）有价值
+- 不需要深入跟进，定期扫一眼即可
