@@ -27,3 +27,22 @@
 - eslint 禁止 unused vars，catch 里不用的 error 要命名为 `_err`
 - `packages/core/src/db/connection.ts` 是 mock 重点 — 测试通过 `mock.module('./connection', ...)` 注入
 - SQLite 返回 TEXT string，PostgreSQL 返回 JSONB object — 两种 path 都要测
+
+## PR History
+
+### #1033 — fix(db): throw on corrupt commands JSON (pending)
+- Simple fix: throw instead of silent empty fallback
+- CodeRabbit: requested including parse error in log — addressed
+
+### #1034 — fix(isolation): ghost worktree cleanup (pending, fixes #964)
+- Root cause: `isolationCompleteCommand` checked `skippedReason` but not `worktreeRemoved`
+- Also: no `git worktree prune` or post-removal verification
+- Lesson: existing code already had `RemoveEnvironmentResult` with `worktreeRemoved` field — the gap was in the *caller* not checking it
+- Pattern: "dishonest success message" bugs — function returns void/success but operation was a no-op
+
+## Maintainer Notes
+- Base branch: `dev` (not `main`)
+- Uses bun for testing and lint-staged
+- CodeRabbit bot reviews are common
+- ~539 pre-existing test failures in full suite (don't worry about them)
+- ESLint: unused catch vars must use `_` prefix
