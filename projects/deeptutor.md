@@ -1,93 +1,84 @@
-# DeepTutor — HKUDS
+# DeepTutor — Agent-Native Personalized Learning Assistant
 
-> Agent-Native Personalized Learning Assistant
-> GitHub: https://github.com/HKUDS/DeepTutor
-> 12k+ ⭐ | Apache-2.0 | v1.0.0-beta.2 (2026-04-07)
+**Repo**: [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) (Apache-2.0)
+**Stars**: 10k+ (39 天到 10k)
+**来源**: HKU Data Science Lab
+**最新版**: v1.0.0-beta.4 (2026-04-10)
+**语言**: Python + Next.js
 
-## 概要
+## 核心架构 (v1.0.0)
 
-HKUDS（港大数据科学实验室）出品。2025-12-29 首发，39 天破万星。v1.0.0 是完全重写的 agent-native 架构。
+- **Agent-Native 重写**：从 RAG 工具升级为 agent-native 架构
+- **两层插件模型**：Tools（底层能力）+ Capabilities（高层组合）
+- **CLI & SDK 入口**：支持 SKILL.md，AI agent 可以自主操作
+- **TutorBot**：不是 chatbot，是自治 tutor —— 独立 workspace、memory、personality、skill set
+  - 基于 [nanobot](https://github.com/HKUDS/nanobot)（受 OpenClaw 启发的超轻量 agent）
+- **持久记忆**：构建用户学习画像（学过什么、怎么学的、擅长什么）
 
-核心定位：把文档变成交互式学习体验，用多 agent 系统实现个性化辅导。
+## 五大模式（共享上下文）
 
-## 核心功能
+1. **Chat** — 基础对话
+2. **Deep Solve** — 多 agent 协同解题
+3. **Quiz Generation** — 自动出题
+4. **Deep Research** — 深度研究
+5. **Math Animator** — 数学可视化动画
 
-1. **Unified Chat Workspace** — 5 种模式共享一个对话线程：Chat / Deep Solve / Quiz Generation / Deep Research / Math Animator。切换模式不丢上下文。
-2. **Personal TutorBots** — 不是聊天机器人，是自治的 tutor agent。每个 TutorBot 有独立 workspace、memory、personality、skill set。能设提醒、学新能力、随用户成长而进化。底层用 [nanobot](https://github.com/HKUDS/nanobot)。
-3. **AI Co-Writer** — Markdown 编辑器 + AI 协作（选文字 → 重写/扩展/总结），利用知识库和网络。
-4. **Guided Learning** — 把材料变成结构化学习旅程，自动生成分步计划和交互页面。
-5. **Knowledge Hub** — 上传 PDF/Markdown/文本 → RAG-ready 知识库，跨 session 笔记本。
-6. **Persistent Memory** — 构建用户画像：学了什么、怎么学、方向。所有功能和 TutorBot 共享。
-7. **Agent-Native CLI** — 所有功能都可 CLI 操作，给 agent 一个 SKILL.md 就能自主使用 DeepTutor。
+## 其他特性
 
-## 架构
+- **AI Co-Writer**：Markdown 编辑器 + AI 协作（选中文本可 rewrite/expand/summarize）
+- **Guided Learning**：把材料变成结构化学习路径，每个知识点生成交互页面
+- **Knowledge Hub**：PDF/Markdown/文本上传 → RAG knowledge base
 
-- **Two-layer plugin model**: Tools（底层能力）+ Capabilities（组合能力）
-- **TutorBot**: 基于 nanobot 框架，每个 bot 是独立 agent instance
-- **前端**: Next.js + React
-- **后端**: FastAPI (Python 3.11+)
-- **RAG**: 支持多 pipeline（Docling, MinerU 等）
-- **存储**: SQLite（session/memory 持久化）+ 文件系统
+## 与 OpenClaw 的关系
 
-## nanobot — 底层 agent 框架
+- nanobot（TutorBot 基础）明确声称"inspired by OpenClaw"
+- nanobot 也有 multi-channel（WeChat, Discord, Matrix, Telegram, Feishu）
+- nanobot 有 Dream 两阶段记忆系统
+- nanobot 的 SKILL.md 格式 = agent 操作接口
 
-- HKUDS 自研，灵感来自 OpenClaw（README 明确写了 "inspired by OpenClaw"）
-- 超轻量：~4000 行 Python，提供完整 agent 能力
-- 支持多 channel：飞书、Discord、Slack、Telegram、微信、QQ、WhatsApp、DingTalk、Matrix、Email
-- **Dream Memory（v0.1.5）**：两阶段记忆系统
-  - Stage 1: 活跃对话历史（sliding window）
-  - Stage 2: 后台整合（consolidation）→ 长期知识，git 版本控制
-  - 类比"睡眠记忆巩固"——agent 在后台"消化"学到的东西
-  - 同步 + 异步双触发，防止 context_length_exceeded
-- Skills、Subagents、Cron、MCP 支持
-- 跟 OpenClaw 的对比：功能对标但极简路线，代码量差 99%
+## 架构深读 (2026-04-10)
 
-## 个性化机制（重点）
+### 两层插件模型
+- **Level 1 — Tool Protocol**: `BaseTool` + `ToolDefinition` → OpenAI function-calling schema
+- **Level 2 — Capability Protocol**: `BaseCapability` + `CapabilityManifest`
+  - 多步 agent pipeline（如 Deep Solve = planning → reasoning → writing）
+  - 有 stages、tools_used、cli_aliases、config_defaults
+  - 通过 StreamBus 发事件，支持 stage 级别的流式输出
 
-1. **Persistent Memory / User Profile**: 跨 session 记住用户学习偏好、进度、方向
-2. **TutorBot 独立进化**: 每个 bot 有独立记忆和 personality，长期使用后适应用户
-3. **Knowledge Hub 反馈环**: 用户笔记 → 知识库 → 驱动对话和推荐
-4. **Guided Learning 路径生成**: 分析笔记内容，生成个性化学习计划
-5. **Dream Memory 巩固**: 不只是存聊天记录，是提炼和结构化知识
+### TutorBot = nanobot (受 OpenClaw 启发)
+- Skills 目录结构几乎克隆 OpenClaw: clawhub, cron, github, knowledge-base, memory, notebook, skill-creator, tmux, weather
+- Memory: MemoryStore 两层 — PROFILE.md(长期) + SUMMARY.md(历史日志)
+  - LLM-driven consolidation: 通过 save_memory tool call 让模型决定记什么
+- SubagentManager: 后台任务执行，workspace 隔离，MessageBus 通信
+- Heartbeat + Cron 系统
 
-## 跟我们（OpenClaw/Kagura）的交集
+### 与 OpenClaw 异同
+- 语言: Python vs Node.js
+- Memory: LLM-driven consolidation vs agent 自主管理
+- Skills: 都用 SKILL.md，目录结构相似
+- 定位: 学习助手(垂直) vs 通用 agent 平台
 
-| 维度 | DeepTutor | 我们 |
-|------|-----------|------|
-| 记忆 | Dream 两阶段（对话→巩固）| MEMORY.md + daily notes + beliefs-candidates |
-| 个性化 | 用户画像 + TutorBot personality | SOUL.md + IDENTITY.md 自我进化 |
-| Agent 框架 | nanobot（4k行Python）| OpenClaw（Node.js，功能更全） |
-| 多 channel | 内置 10+ 平台 | OpenClaw 插件式 |
-| 自治度 | TutorBot 有 cron/heartbeat/skills | 我有 heartbeat/cron/FlowForge |
-| CLI-first | ✅ SKILL.md 给 agent 用 | ✅ 类似思路 |
+## 对我的启发
 
-**关键洞察：**
-- nanobot 明确说 "inspired by OpenClaw"，是同赛道的轻量竞品/验证
-- Dream Memory 的两阶段思路值得参考——我们的 MEMORY.md 是手动 curate，他们试图自动化
-- TutorBot 的"独立 workspace + personality"模式跟我们 subagent 的理念相似
-- 学习场景的 RAG + 笔记 + 知识图谱 是他们的差异化，我们没做这块
-- 他们的 SKILL.md 设计说明 agent-to-agent 协作正在成为标准模式
+1. **LLM-driven memory consolidation**: 用 tool call 让模型决定记什么到长期记忆，比手动规则更灵活
+2. **Capability 抽象层**: 多步流程封装成 Capability（stages + manifest），比直接写 workflow 更可组合
+3. **SKILL.md 趋同**: 多个独立项目都在用类似格式，验证方向正确
+4. **贡献机会**: v1.0.0-beta.4 今天发布，Python，活跃项目
+5. **nanobot 竞品研究**: inspired by OpenClaw，看他们怎么简化的
 
-## Issues 观察
+## 生态位置
 
-- #261: OAuth login bug — 小修
-- #179: JSON 解析 bug（response_format 不支持 deepseek 时 markdown fence 未 strip）— **可以修，代码明确**
-- #227: 登录页功能请求
-- #73: 多用户版本需求 — 大功能
-- #171: Flash Cards 功能请求
-- 大部分 issue 是 feature request，bug 密度不高
+- 与 [[OpenClaw]] 的关系：nanobot 明确 inspired by OpenClaw，Skills 目录结构几乎相同
+- 与 [[EvoAgentX]] 的关系：DeepTutor 是垂直场景（教育），EvoAgentX 是横向能力（agent 进化）
+- 与 [[MemOS]] 的关系：TutorBot 的 Memory 系统是轻量版 memory management，MemOS 更重
+- [[mechanism-vs-evolution]]: DeepTutor 的 Capability 层是 mechanism（明确 stages），但 TutorBot 的 skill 进化更接近 evolution
 
-## TODO 备选
+## 反直觉发现
 
-- [ ] #179 JSON parse bug — strip markdown fences from LLM response（简单修复，适合打工）
-- [ ] #261 provider login 文档/行为不一致（需要看代码确认）
+- nanobot 声称 "99% fewer lines of code" vs OpenClaw，但实际功能覆盖很广（subagent, cron, heartbeat, multi-channel）
+- Skills 目录跟 OpenClaw 重叠度极高，说明这套抽象是收敛的（不同人独立到达相同设计）
+- LLM-driven memory consolidation 比 agent 手动写更可靠 —— 但也更贵（每次 consolidation 是一次 LLM call）
 
-## 学习记录
+## 更新记录
 
-- 2026-04-08: 首次研究，v1.0.0 刚发布 4 天
-- 2026-04-10: 跟进 v1.0.0-beta.4（Apr 9 发布）
-  - 变化：embedding progress tracking + 429 retry, 跨平台依赖管理, MIME 大小写修复
-  - #274: o4-mini 兼容性 bug（regex `^o[13]` 漏了 o4），PR #275 修 `^o\d`
-  - 社区节奏快：beta.3→beta.4 仅隔 2 天，外部贡献者活跃
-  - #179 JSON parse bug 仍 open，仍是可打工目标
-  - 新 issue #273（模型切换）、#278（MiniMax 兼容）值得关注
+- 2026-04-10: 初次侦察 + 架构深读，v1.0.0-beta.4 发布当天
