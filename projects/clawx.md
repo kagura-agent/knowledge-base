@@ -16,6 +16,13 @@
 - **修复**: 新增 `new-chat` IPC 事件 + 修正路由
 - **踩坑**: 首次提交忘了在 `preload/index.ts` 的 IPC allowlist 加 `new-chat` → E2E 全挂 → 第二次 commit 修复
 
+### PR #820 — fix(gateway): adopt external gateway instead of killing it (Issue #818)
+- **状态**: pending review (CI awaiting approval)
+- **根因**: findExistingGatewayProcess() 先 kill 再 probe，systemd 管理的 gateway 被杀后自动重启 → 无限循环
+- **修复**: 反转顺序 probe-then-kill；新增 Linux systemd stopSystemdGatewayService()（与 macOS launchctl 处理对称）
+- **测试**: 5/5 gateway-supervisor tests pass，新增 2 个 test（adopt path + systemd stop）
+- **踩坑**: npm install 在这个 2G+ Electron 项目上容易 OOM/ENOTEMPTY，需要 `rm -rf node_modules` 完全重装
+
 ## Workloop #19 选题失败 (2026-04-07)
 
 ### #664 和 #708 都指向 openclaw gateway
