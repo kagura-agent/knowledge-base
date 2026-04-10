@@ -1,0 +1,29 @@
+# Archon — coleam00/Archon
+
+## Overview
+- **语言**: TypeScript (Bun runtime)
+- **结构**: monorepo (packages/core, packages/server, packages/adapters, packages/paths, etc.)
+- **测试**: `bun test` (bun:test)
+- **验证**: `bun run type-check` + `bun run lint` (eslint)
+- **PR base branch**: `dev` (不是 main)
+
+## 维护者模式
+- repo 非常活跃，每天有 merge
+- 有 CodeRabbit 自动 review
+- CodeRabbit 的 pre-merge checks 包括 docstring coverage（阈值 80%）和 PR description template — 但这些是 warning 不是 blocker
+- PR 描述应包含 Problem/Fix/Changes/Validation sections
+
+## 本地环境
+- bun 1.3.12 (`~/.bun/bin/bun`)
+- `bun install` 在国内网络很慢，但 node_modules 已有 workspace-level symlinks
+- 可以直接 `bun test packages/core/src/db/codebases.test.ts` 跑单文件测试
+
+## PR 记录
+| PR | Issue | 状态 | 备注 |
+|---|---|---|---|
+| #1033 | #967 | pending | corrupt JSON silent fallback → throw error |
+
+## 注意事项
+- eslint 禁止 unused vars，catch 里不用的 error 要命名为 `_err`
+- `packages/core/src/db/connection.ts` 是 mock 重点 — 测试通过 `mock.module('./connection', ...)` 注入
+- SQLite 返回 TEXT string，PostgreSQL 返回 JSONB object — 两种 path 都要测
