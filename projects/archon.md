@@ -51,3 +51,12 @@
 - CodeRabbit bot reviews are common
 - ~539 pre-existing test failures in full suite (don't worry about them)
 - ESLint: unused catch vars must use `_` prefix
+
+## 2026-04-11 Session Notes
+- **PR #1034**: Addressed 2 Major + 1 Minor CodeRabbit review comments
+  - Ghost worktree prune needs to run outside pathExists guard
+  - Batch cleanup callers must honor partial/skipped result states
+  - Partial cleanup message should reflect actual branchDeleted state
+  - All 3 packages pass tsc --noEmit
+- **PR patterns**: CodeRabbit reviews are thorough; address Major issues promptly
+- **hermes#2890**: Upstream restructured STT config significantly (added providers, mistral). Rebase required careful conflict resolution to merge our `device` field with new provider structure
