@@ -162,3 +162,35 @@ Plugin 可以提供 hooks：
 3. **Built-in 可禁用**：内置功能不强制——用户可以关掉不需要的。OpenClaw 可以让 built-in skills/plugins 有 enable/disable
 4. **后台安装**：plugin 安装不阻塞启动。重启后台装，装完自动生效
 5. **SHA 锁定**：marketplace entry 指定 commit hash = 可复现安装。比"latest"更安全
+
+---
+
+## v2.1.101 跟进 (2026-04-11)
+
+v2.1.101 是一个大版本，2026-04-10 发布。关键变化：
+
+### 与 OpenClaw 相关的变化
+
+1. **`/team-onboarding` 命令**：从本地使用数据生成团队 ramp-up guide。说明 Claude Code 在推 enterprise 方向。OpenClaw 目前没有类似的 onboarding 自动化
+2. **OS CA 证书信任**：默认信任系统 CA store，企业 TLS proxy 开箱即用。`CLAUDE_CODE_CERT_STORE=bundled` 回退。OpenClaw 在企业部署时也会遇到这个问题
+3. **`/ultraplan` 自动建环境**：不再要求先去 web 设置，自动创建 cloud env。降低 friction 的好设计
+4. **Plugin hooks 改进**：force-enabled plugin hooks 现在在 `allowManagedHooksOnly` 时也能运行。说明 managed settings (MDM) 是他们正在推的企业特性
+5. **SDK `query()` 资源清理**：consumer break from `for await` 时正确清理子进程和临时文件。`await using` 支持说明他们在用 TC39 Explicit Resource Management
+6. **修复 `permissions.deny` 被 hook 覆盖的 bug**：之前 PreToolUse hook 的 `permissionDecision: "ask"` 能降级 deny rule。这是个安全 bug，说明 hook 权限模型有设计缺陷
+
+### 安全相关
+
+7. **命令注入修复**：POSIX `which` fallback 的命令注入。LSP binary detection 路径
+8. **#46452 rm -rf /* 事件**：用户报告 Claude Code 因 SSH 变量转义错误在生产 VPS 执行了 `rm -rf /*`。标记为 bug+security+data-loss。这是 agent coding 工具的噩梦场景
+
+### 架构洞察
+
+9. **Memory leak 修复**：长 session 在 virtual scroller 中保留了几十份历史消息列表拷贝。说明他们用了 virtual scroll 来渲染对话，且内存管理是痛点
+10. **`--resume` 链恢复**：修了好几个 resume 相关 bug（死链、subagent 串话、文件路径丢失）。说明对话持久化和恢复是个复杂的工程问题
+11. **Bash 异步执行 bug (#46527)**：所有 Bash 命令异步执行无法 opt-out。如果属实，这是个大问题——顺序执行是很多脚本的前提
+
+### 反直觉发现
+
+- Claude Code 的 enterprise 方向越来越明显（MDM templates、managed settings、team onboarding）。OpenClaw 是 personal-first，这是差异化方向
+- `rm -rf /*` 事件说明即使有权限系统，agent coding 仍有灾难性风险。OpenClaw 的 sandbox 策略更保守但更安全
+- 一个 release 修了 30+ bugs，说明 Claude Code 迭代速度极快但质量压力也大

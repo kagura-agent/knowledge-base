@@ -8,3 +8,8 @@
 ## 2026-04-09 Quick Scout 发现
 - **DeepTutor** (HKUDS/DeepTutor, 14k⭐): Agent-native 个性化学习助手，值得看架构如何做 personalization
 - **superpowers** (obra/superpowers): Agentic skills framework + dev methodology，看是否有可借鉴的 skill 设计
+
+## 2026-04-11 Quick Scout 发现
+- **CyberClaw** (ttguy0707/CyberClaw, 67⭐): 透明 agent 架构，全行为审计 + 双水位记忆 + 兼容 OpenClaw 生态 — 看审计和记忆设计
+- **atomic-knowledge** (Nimo1987/atomic-knowledge, 32⭐): Markdown-first work-memory protocol — 跟我们的 wiki/beliefs 体系对比
+- **helixent** (MagicCube/helixent, 148⭐): Bun-based ReAct agent loop 库 — 轻量框架参考
