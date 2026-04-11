@@ -48,3 +48,11 @@
 - Tests import from `dist/` not `src/` — must rebuild with `npx tsc -p tsconfig.src.json` before running tests
 - `npm run check` = lint+format (run from `nemoclaw/` subdir), `npm test` = vitest (run from root)
 - When renaming fields: check serialization (createSession), deserialization (normalizeSession), filterSafeUpdates, and the serialize export path
+
+## PR #1784 — Telegram mention-only mode (2026-04-11)
+- **Status**: PENDING, CI pass, awaiting CodeRabbit + maintainer review
+- **Scope**: 3 files (Dockerfile, onboard.ts, onboard.test.ts), 165 additions
+- **Pattern**: New B64 config arg (NEMOCLAW_TELEGRAM_CONFIG_B64) following Discord guilds pattern
+- **Key fix**: Interactive prompt gate was `ch.requireMentionEnvKey && ch.serverIdEnvKey` — Telegram has no serverIdEnvKey, changed to `!ch.serverIdEnvKey || process.env[ch.serverIdEnvKey]`
+- **Tests**: 3 new vitest tests (mention-only, open, empty config)
+- **GPG**: Commit signed ✅

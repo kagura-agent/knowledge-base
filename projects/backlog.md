@@ -23,3 +23,9 @@
 - **CyberClaw** (ttguy0707/CyberClaw, 67⭐): 透明 agent 架构，全行为审计 + 双水位记忆 + 兼容 OpenClaw 生态 — 看审计和记忆设计
 - **atomic-knowledge** (Nimo1987/atomic-knowledge, 32⭐): Markdown-first work-memory protocol — 跟我们的 wiki/beliefs 体系对比
 - **helixent** (MagicCube/helixent, 148⭐): Bun-based ReAct agent loop 库 — 轻量框架参考
+
+## 2026-04-11 Quick Scout #8 (17:55)
+- [ ] gbrain (garrytan) — OpenClaw/Hermes brain 配置，3.6k⭐，看架构
+- [ ] awesome-persona-distill-skills — Agent 人格 Skill 合集，3k⭐，看 skill 设计模式
+- [ ] parlor — on-device Gemma 4 多模态对话，1.3k⭐，on-device trend
+- [ ] claude-memory-compiler — Claude Code 记忆系统，521⭐，对标我的 memory 方案
