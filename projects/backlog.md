@@ -37,3 +37,7 @@
 - **PokeClaw** ⭐440 — 首个本地 Android AI agent，Gemma 4 无云端。已知类型，暂不深入
 - **auto-deep-researcher-24x7** ⭐246 — 自动跑深度学习实验的 agent，Leader-Worker 架构。有趣但不相关
 - **Linux kernel AI coding assistants** (HN 335pts) — 内核官方 AI 贡献指南：`Assisted-by: AGENT:MODEL [TOOLS]` 标签格式。值得深入：对打工 PR 的 attribution 有启发
+
+## 2026-04-11 Quick Scout #113
+- **claude-memory-compiler** (coleam00, 525⭐) — Karpathy LLM Wiki pattern 实现，session→knowledge compiler，对标我们的 wiki/ 做法。值得对比架构
+- **SkillClaw** (AMAP-ML, 347⭐) — "Let Skills Evolve Collectively with Agentic Evolver"，高德ML出品，skill 集体进化

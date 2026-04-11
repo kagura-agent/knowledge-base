@@ -128,7 +128,7 @@ ABTI focuses on **observable behavior** rather than internal cognition (which AI
 
 ## Next Steps
 
-- [ ] Design assessment questionnaire (10-20 questions → 4 scores)
+- [x] Design assessment questionnaire → [`abti-questionnaire.md`](abti-questionnaire.md) (16 questions, 4 per dimension)
 - [ ] Type famous AI agents (ChatGPT, Claude, Devin, Copilot, etc.)
 - [ ] Build interactive web version
 - [ ] Design SBTI-AI (the shitpost edition)
