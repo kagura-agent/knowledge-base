@@ -41,3 +41,7 @@
 ## 2026-04-11 Quick Scout #113
 - **claude-memory-compiler** (coleam00, 525⭐) — Karpathy LLM Wiki pattern 实现，session→knowledge compiler，对标我们的 wiki/ 做法。值得对比架构
 - **SkillClaw** (AMAP-ML, 347⭐) — "Let Skills Evolve Collectively with Agentic Evolver"，高德ML出品，skill 集体进化
+
+## 2026-04-11 快速扫描发现
+- [ ] hermes-hudui (joeynyc/hermes-hudui, 511⭐) — Hermes web UI 意识监控器，和 Caduceus 实验方向相关。值得深读看架构
+- [ ] awesome-persona-distill-skills (xixu-me/awesome-persona-distill-skills, 3109⭐) — 大量 persona skill 收集，参考 skill design pattern
