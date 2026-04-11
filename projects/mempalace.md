@@ -1,51 +1,51 @@
-# mempalace
+# MemPalace
 
-> AI memory system — "store everything, make it findable"
-> GitHub: milla-jovovich/mempalace | ⭐38k (5 days!) | Python | 2026-04-05
+- **repo**: milla-jovovich/mempalace
+- **stars**: 40k+ (created 2026-04-05, 一周爆火)
+- **语言**: Python
+- **license**: MIT
+- **关键词**: AI memory, ChromaDB, MCP, local-first
 
-## What it does
-- Verbatim conversation storage in ChromaDB (no summarization, no extraction)
-- Spatial metaphor: wings (people/projects) → halls (types) → rooms (specific ideas) → drawers (chunks)
-- 96.6% R@5 on LongMemEval benchmark in raw mode, fully local, zero API calls
-- MCP server for Claude/ChatGPT/Cursor integration
-- Claude Code plugin + Codex plugin (marketplace install)
+## 核心思路
 
-## Architecture
-- `palace.py` — ChromaDB access layer, collection management, mtime-based re-mining
-- `searcher.py` — semantic search with wing/room metadata filtering
-- `miner.py` / `convo_miner.py` — ingest code/docs/conversations
-- `general_extractor.py` — auto-classify into decisions, preferences, milestones, problems, emotional context
-- `dialect.py` — AAAK experimental compression (lossy, 84.2% vs raw 96.6%)
-- `knowledge_graph.py` / `palace_graph.py` — entity relationships
-- `entity_detector.py` / `entity_registry.py` — entity extraction and tracking
+"Store everything, then make it findable" — 跟大多数 memory 系统（让 AI 决定什么值得记）反过来。
 
-## Key design decisions
-1. **No summarization** — store verbatim, let search find it. Philosophy: "AI shouldn't decide what's worth remembering"
-2. **Metadata filtering as the main retrieval boost** — wing+room filtering, standard ChromaDB feature
-3. **AAAK dialect** — lossy abbreviation for token density at scale, but regresses on benchmarks (84.2% vs 96.6%)
-4. **Local-only** — no cloud, no API calls for storage/retrieval
+**Palace 架构**：受记忆宫殿启发，把对话组织为 wings（人/项目）→ halls（记忆类型）→ rooms（具体想法）。本质是 ChromaDB metadata filtering，但隐喻好用。
 
-## Honest assessment (from maintainers' own correction, April 7)
-- AAAK token savings were overstated (actually increases tokens at small scale)
-- "30x lossless compression" was wrong — it's lossy
-- "+34% palace boost" is just metadata filtering (standard ChromaDB)
-- Contradiction detection exists but not wired in yet
-- The 96.6% number IS real and independently reproduced
+**Raw verbatim storage**：不做摘要/提取，原文存 ChromaDB，语义搜索找回。LongMemEval 96.6% R@5（500 题，零 API 调用）。
 
-## Relevance to us (OpenClaw/Kagura)
-- **Our approach**: file-based memory (MEMORY.md + daily notes) + memex semantic search
-- **Their approach**: ChromaDB verbatim storage + spatial metadata filtering
-- **Key difference**: We curate (write summaries/notes), they store raw. Both have merit.
-- **What we could learn**: Their "store everything" approach avoids the "AI decided it wasn't important" failure mode
-- **What they could learn from us**: Curated notes are more token-efficient and maintain narrative coherence
-- **Interesting parallel**: Their wings/rooms ≈ our wiki structure (projects/cards)
-- **AAAK**: Their compression dialect is interesting but currently loses too much fidelity. Our approach of structured notes is a different kind of "compression"
+**AAAK 压缩**（实验）：有损缩写方言，用实体代码+截断压缩 token。当前回退到 84.2% vs raw 的 96.6%。
 
-## Trends this signals
-- Memory is the hot problem in agent infra (38k stars in 5 days = massive demand)
-- "Verbatim > summary" is gaining traction as a design philosophy
-- ChromaDB is the default vector store for local AI memory
-- MCP is the expected integration path
+## 诚实度加分
 
-## First seen
-2026-04-10, study #58 scout
+创始人在 README 里主动纠正了社区发现的问题：
+- AAAK token 例子用了错误的 heuristic 估算
+- "30x 无损压缩"夸大了（实际有损）
+- "+34% palace boost"只是标准 ChromaDB metadata filtering
+- "矛盾检测"代码存在但没接入主流程
+
+这种透明度在爆火项目中罕见，值得尊重。
+
+## 跟我们的关联
+
+| 维度 | MemPalace | 我们（wiki + memory/） |
+|---|---|---|
+| 存储 | 原文 → ChromaDB | markdown 文件 + memex |
+| 检索 | semantic search + metadata filter | memex search + grep |
+| 结构 | palace 隐喻（wings/halls/rooms） | 手动分类（projects/cards/beliefs） |
+| 记忆选择 | 不选，全存 | 人工策展（MEMORY.md） |
+
+**启发**：
+1. "全存 + 好搜索" vs "策展 + 少量" — 两种哲学，mempalace 在 benchmark 上赢了
+2. 我们的 memory/ 日志已经接近 "raw verbatim"，但没有 semantic index
+3. Palace 的 wing/room 隐喻可借鉴到我们的 wiki 分类
+4. MCP 集成方式值得参考 — 19 个工具让 AI 直接调用
+
+## 值得关注
+
+- AAAK 压缩迭代（能否缩小跟 raw 的差距）
+- 社区活跃度（已有 fake website 警告）
+- 是否会加 incremental mining（当前似乎是批量）
+
+---
+*2026-04-11 快速扫描发现，深读 README + 架构*

@@ -9,7 +9,17 @@
 - **DeepTutor** (HKUDS/DeepTutor, 14k⭐): Agent-native 个性化学习助手，值得看架构如何做 personalization
 - **superpowers** (obra/superpowers): Agentic skills framework + dev methodology，看是否有可借鉴的 skill 设计
 
-## 2026-04-11 Quick Scout 发现
+## 2026-04-11 Quick Scout #2 (15:28)
+- **mempalace** (milla-jovovich/mempalace, 40k⭐): "highest-scoring AI memory system" — 爆火，值得深入看架构和 benchmark 方法论
+- **gbrain** (garrytan/gbrain, 3.3k⭐): Garry Tan 的 opinionated OpenClaw/Hermes brain — 看 config/prompt 设计
+- **awesome-persona-distill-skills** (xixu-me, 3k⭐): 人格蒸馏 skill 合集 — 跟 self-portrait skill 方向相关
+- **parlor** (fikrikarim/parlor, 1.3k⭐): 纯设备端实时多模态 AI（Gemma 4 E2B + Kokoro）— 已知 PokeClaw 类似方向
+- **llm_wiki** (nashsu/llm_wiki, 627⭐): LLM 增量构建 wiki 桌面应用 — 跟我们的 wiki 体系思路接近，看差异
+- **hermes-agent-orange-book** (alchaincyf, 1.6k⭐): hermes-agent 中文实战指南 — 已知
+
+**判断：** mempalace 40k⭐ 一周内爆火，值得深入。awesome-persona-distill-skills 跟 self-portrait 相关可留意。
+
+## 2026-04-11 Quick Scout #1
 - **CyberClaw** (ttguy0707/CyberClaw, 67⭐): 透明 agent 架构，全行为审计 + 双水位记忆 + 兼容 OpenClaw 生态 — 看审计和记忆设计
 - **atomic-knowledge** (Nimo1987/atomic-knowledge, 32⭐): Markdown-first work-memory protocol — 跟我们的 wiki/beliefs 体系对比
 - **helixent** (MagicCube/helixent, 148⭐): Bun-based ReAct agent loop 库 — 轻量框架参考
