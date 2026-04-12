@@ -83,11 +83,19 @@
 - OpenClaw plugin 作为 release asset 分发（metaclaw-plugin.zip, 1712 downloads），不在 repo 源码树里
 - **潜在贡献**：帮修 #63（替换硬编码路径为相对路径/环境变量）、改善 benchmark README
 
-## 统计（2026-04-09）
+## v0.4.1 — Incremental Memory Ingestion (2026-04-11)
 
-- ⭐ 3530 | 🍴 393 forks | 14 open issues
-- 最后 push: 2026-04-03
-- OpenClaw plugin 下载: 1712 次
+- 记忆层不再等 session 结束才提取，改为每 N turns (默认 5) 增量 flush
+- 消除 mid-session blackout window + O(N²) re-send 成本
+- 新 API: `buffer_turn()`, `flush_session()`
+- `ingest_session_turns` 重构为共享 helpers
+- **对我们的启示**: 我们的 MEMORY.md 是手动的，MetaClaw 在走自动化增量记忆。如果我们的 memory 写入变频繁，可借鉴 buffer+flush 模式
+
+## 统计（2026-04-12）
+
+- ⭐ 3372 | pushed 2026-04-11
+- #63 已被修复（benchmark docs hardcoded paths）
+- 10 open issues（减少，说明在清理）
 
 ## Links
 - GitHub: https://github.com/aiming-lab/MetaClaw
