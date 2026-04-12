@@ -38,5 +38,6 @@
 - beliefs-candidates = 梯度收集器 → 分流到 DNA / Workflow / Knowledge-base
 
 ## 自动触发
-- cron ×13 active（daily-review, daily-handoff, github-check, community-ops, daily-audit, morning-briefing, work-loop, study-loop, uncaged-check, kagura-story×2, memex-dogfood-review, weekly-eval）+ nudge (agent_end hook)
+- cron ×16 active（daily-review, daily-handoff, github-check, community-ops, daily-audit, morning-briefing, work-loop, study-loop, abti-loop, moltbook-loop, uncaged-check, kagura-story×2, memex-dogfood-review, weekly-eval, abti-push[disabled]）+ nudge (agent_end hook)
 - hook: todo-pin-sync（file→Discord pin 自动同步）
+- Discord: 3 层架构（顶层 private → Daily Channels → Project Channels），channel 数 ~12

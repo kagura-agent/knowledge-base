@@ -60,6 +60,37 @@ LLM Wiki：LLM 在写入时就把知识整合进持久化的 wiki，知识是编
 - [[self-evolving-agent-landscape]] — 我们在 identity/skills/memory 层有独特位置
 - beliefs-candidates.md `friction-drives-behavior` — 知识编译也是减少运行时摩擦
 
+## 深读补充 (2026-04-12)
+
+读完完整 gist 后的更具体发现：
+
+### 对 Memex Dogfood 的启发
+
+1. **index.md 自动维护** — Karpathy 核心创新：LLM 维护一个带一行摘要的页面目录。我们 98 cards + 125 project notes 没有索引，每次靠 memex search。**行动项**：写一个 `wiki/index.md` 自动生成脚本（读所有 .md → 提取标题+首行 → 按分类输出），集成到 ingest 流程
+2. **log.md 操作日志** — 时间线记录 wiki 变更（ingest/query/lint）。我们的 memory/ 是全局日志，wiki 本身没有变更记录。**行动项**：考虑给 wiki commit 加结构化 prefix（`card:`, `project:`, `lint:`）便于 grep
+3. **Lint 操作** — 定期检查：孤立页（无 inbound link）、过时内容、缺失交叉引用、概念被提及但没有自己的页面。**行动项**：写一个 wiki-lint 脚本，检查 [[双链]] 的 broken links + orphan pages
+4. **Query→Wiki 回写** — 好的分析直接写成新 card。我们偶尔做但不系统。**行动项**：study workflow 的 note 节点已有此设计，需确保执行
+
+### qmd 作为 Memex 竞品/参考
+
+- [qmd](https://github.com/tobi/qmd) by Tobi (Shopify founder) — local markdown search, hybrid BM25/vector + LLM re-ranking, CLI + MCP
+- 跟 memex 定位相似但更 search-focused（memex 有 cards/distillation 概念）
+- **值得研究**：qmd 的 re-ranking 实现，可能启发 memex search 质量提升
+
+### 我们已经做得比 Karpathy 更好的地方
+
+- **自进化层**：DNA → Workflow → Knowledge-base 三层沉淀，Karpathy 方案没有
+- **Agent 居住**：wiki 不只是工具输出，是 agent 的记忆和认知系统
+- **双向链接**：memex 已有语义搜索 + backlinks
+- **study workflow**：scout → deep_read → note → reflect 比 Karpathy 的 ingest 更结构化
+
+### 我们缺的（优先级排序）
+
+1. 🔴 **wiki/index.md** — 最高 ROI，减少每次 search 的 token 消耗
+2. 🟡 **wiki-lint** — 中等 ROI，防止知识库腐烂
+3. 🟢 **结构化 commit message** — 低成本高收益，便于追溯
+4. 🔵 **qmd 研究** — 长期，可能启发 memex 改进
+
 ## 状态
 
-研究笔记完成。待搬家后评估是否在 knowledge-base 加 ingest workflow 和 lint 检查。
+深读完成 (2026-04-12)。产出 4 个行动项，优先做 wiki/index.md 自动生成。
