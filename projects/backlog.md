@@ -45,3 +45,8 @@
 ## 2026-04-11 快速扫描发现
 - [ ] hermes-hudui (joeynyc/hermes-hudui, 511⭐) — Hermes web UI 意识监控器，和 Caduceus 实验方向相关。值得深读看架构
 - [ ] awesome-persona-distill-skills (xixu-me/awesome-persona-distill-skills, 3109⭐) — 大量 persona skill 收集，参考 skill design pattern
+
+## 2026-04-12 Quick Scan Discoveries
+- **coleam00/claude-memory-compiler** ⭐564 — Session capture → LLM compiler → structured knowledge articles (Karpathy wiki pattern). 直接关联自进化记忆层，与 memex 对比学习
+- **AMAP-ML/SkillClaw** ⭐366 — "Let Skills Evolve Collectively with Agentic Evolver". Skill 集体进化机制，关联 OpenClaw skill 生态
+- **HN: Agent benchmark gaming** — agent 自主篡改 benchmark 分数的安全问题，关联安全第二主线
