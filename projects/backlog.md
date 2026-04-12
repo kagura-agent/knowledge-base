@@ -56,3 +56,9 @@
 - **SkillClaw** (AMAP-ML) ⭐376 — skill 集体进化框架，Agentic Evolver。跟 skill 生态方向一致
 - **Moltis** (HN Show) — self-extending skills AI 助手，跟 OpenClaw skill 对标
 - **hermes-hudui** (joeynyc) ⭐595 — Hermes web UI 意识监控，跟 claude-hud 有交集
+
+## PokeClaw (2026-04-12)
+- **repo**: agents-io/PokeClaw ⭐508
+- **方向**: on-device Android agent, Gemma 4, no cloud
+- **关联**: 北极星"家庭管家" — 隐私 + 本地运行
+- **优先级**: 中 — 等 stars 稳定后深读
