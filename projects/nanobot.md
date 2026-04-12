@@ -132,11 +132,18 @@ await loop.process_direct(
 - 与我们的 Copilot API ~60s 流式空闲超时不同：nanobot 的是整体任务超时，解决无限循环/资源泄漏
 - 我们的 subagent 超时是 API 层面限制，不是 agent 层面控制
 
-## 统计 (2026-04-12 19:45)
+## 统计 (2026-04-12 21:46)
 - ⭐ ~39,200 | pushed today (多个 commit)
 - v0.1.5 (Apr 6) — latest release
 - 5 个新 open issues/PRs 全部今天创建，活跃度极高
 - 社区正在快速提 cron/timeout/progress 相关 issue → 说明 nanobot 进入 production 使用阶段
+
+### Dream Skill Discovery Bug Fix (7a7f5c9, 2026-04-12)
+- **问题**: `WriteFileTool` 以 `skills/` 为 workspace root，但 prompt 要模型写 `skills/<name>/SKILL.md` → 路径解析失败
+- **修复**: `WriteFileTool(workspace=workspace_root, allowed_dir=skills_dir)` — workspace 改回项目根目录，allowed_dir 仍限制在 skills/
+- 同时修了 Dream Phase 2 里 `skill-creator/SKILL.md` 的路径引用 — 从硬编码相对路径改为 Jinja2 变量 `{{ skill_creator_path }}` 指向 builtin skills
+- +28 行测试（test_skill_phase_uses_builtin_skill_creator_path + test_skill_write_tool_accepts_workspace_relative_skill_path）
+- **启发**: 写工具做路径限制时，workspace root 和 allowed_dir 是两个独立关注点，不能混为一谈
 
 ## 下一步
 - [x] 实验：在 nudge hook 中加 `[SKILL]` 标签 (2026-04-12, NUDGE.md Step 5 重写)
