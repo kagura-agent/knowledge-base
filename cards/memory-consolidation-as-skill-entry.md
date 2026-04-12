@@ -26,7 +26,7 @@ Skill generation 不需要独立的检测-评估-生成 pipeline（如 [[skillcl
 ## 与我们的关联
 
 我们的 nudge hook + beliefs-candidates 管线是最原始的版本。升级路径：
-1. **最小改动**：在 nudge prompt 中加 `[SKILL]` 标签（nanobot 方案）
+1. ~~**最小改动**：在 nudge prompt 中加 `[SKILL]` 标签（nanobot 方案）~~ ✅ **已实施 2026-04-12** — NUDGE.md Step 5 重写为结构化 `[SKILL]` 标签 + `[SKILL-CANDIDATE]` 候选机制
 2. **中等改动**：在 daily-review 中扫描近 N 天 memory 找可复用模式
 3. **最大改动**：实现 SkillClaw 式的独立 evolver（不推荐，过度工程）
 

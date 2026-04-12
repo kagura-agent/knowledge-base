@@ -99,7 +99,7 @@ Phase 2 创建 skill：
 - 活跃度极高，每天都有 commit
 
 ## 下一步
-- [ ] 实验：在 nudge hook 或 daily-review 中加 skill discovery 标签
+- [x] 实验：在 nudge hook 中加 `[SKILL]` 标签 (2026-04-12, NUDGE.md Step 5 重写)
 - [ ] 对比 Dream 的 staleness 规则和我们的 memory hygiene（14天 vs 我们的 ad hoc）
 - [ ] 看 lifecycle hooks 设计，跟 OpenClaw hooks 对比
 
